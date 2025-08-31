@@ -5,7 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Zentara') }}</title>
+        <title>
+            {{ $title ? ($title . ' | ' . config('app.name', 'Zentara')) : config('app.name', 'Zentara') }}
+        </title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,10 +44,35 @@
             }
 
             .glass-effect {
-                background: rgba(255, 255, 255, 0.06);
+                background: rgba(255, 255, 255, 0.05);
                 backdrop-filter: blur(20px);
-                border: 1px solid rgba(255, 255, 255, 0.12);
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
+
+            .watch-glow {
+                box-shadow:
+                0 0 80px rgba(212, 175, 55, 0.3),
+                0 0 120px rgba(212, 175, 55, 0.15),
+                inset 0 0 60px rgba(255, 255, 255, 0.1);
+            }
+
+            .mechanical-glow {
+                box-shadow:
+                0 0 40px rgba(212, 175, 55, 0.4),
+                0 0 80px rgba(212, 175, 55, 0.2);
+            }
+
+            @keyframes rotate-bezel { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+            @keyframes tick { 0%, 50% { transform: rotate(0deg); } 51%, 100% { transform: rotate(6deg); } }
+            @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-20px) rotate(2deg); } }
+            @keyframes pulse-gold { 0%, 100% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.5); } 50% { box-shadow: 0 0 50px rgba(212, 175, 55, 0.9); } }
+            @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+            .animate-float { animation: float 10s ease-in-out infinite; }
+            .animate-pulse-gold { animation: pulse-gold 4s ease-in-out infinite; }
+            .animate-fadeInUp { animation: fadeInUp 1.2s ease-out; }
+            .animate-rotate-bezel { animation: rotate-bezel 120s linear infinite; }
+            .animate-tick { animation: tick 1s ease-in-out infinite; }
 
             .hero-pattern {
                 background-image:
@@ -54,30 +81,29 @@
                     radial-gradient(circle at 40% 90%, rgba(22, 33, 62, 0.3) 0%, transparent 50%);
             }
 
-            /* Ensure form fields stay readable on dark background */
-            input[type="text"],
-            input[type="email"],
-            input[type="password"],
-            input[type="number"],
-            input[type="search"],
-            input[type="tel"],
-            textarea,
-            select {
-                color: #111827; /* gray-900 */
-                background-color: #ffffff;
-            }
-
-            input::placeholder,
-            textarea::placeholder {
-                color: #9CA3AF; /* gray-400 */
-            }
+            /* Note: Inputs use component-level classes for dark styling */
         </style>
     </head>
     <body class="font-inter antialiased text-white">
-        <div class="min-h-screen bg-luxury-gradient hero-pattern">
-            {{ $slot }}
+        <div class="min-h-screen bg-white">
+            <x-user-nav />
+
+            @if (isset($header))
+                <header class="glass-effect">
+                    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
+
+            <main>
+                {{ $slot }}
+            </main>
         </div>
+
+        @stack('modals')
 
         @livewireScripts
     </body>
+    
 </html>

@@ -2,16 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'pages.home')->name('home');
+Route::view('/welcome', 'welcome')->name('welcome');
+
+// Public pages
+Route::view('/about', 'pages.about')->name('about');
+Route::view('/contact', 'pages.contact')->name('contact');
 
 // routes/web.php
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->group(function () {
 
-        // user default
-        Route::get('/dashboard', fn() => view('dashboards.user'))->name('dashboard');
+        // user default: send to public home instead of a user dashboard
+        Route::get('/dashboard', fn() => redirect()->route('home'))->name('dashboard');
 
         Route::middleware('role:seller')->group(function () {
             Route::get('/seller/dashboard', fn() => view('dashboards.seller'))->name('seller.dashboard');
@@ -21,4 +24,3 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/admin/dashboard', fn() => view('dashboards.admin'))->name('admin.dashboard');
         });
     });
-

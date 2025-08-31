@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
+use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -28,11 +29,12 @@ class FortifyServiceProvider extends ServiceProvider
                 public function toResponse($request)
                 {
                     $role = $request->user()->role;
-                    return redirect()->intended(match ($role) {
-                        'admin' => route('admin.dashboard'),
-                        'seller' => route('seller.dashboard'),
-                        default => route('dashboard'),
-                    });
+                    return match ($role) {
+                        'admin' => redirect()->intended(route('admin.dashboard')),
+                        'seller' => redirect()->intended(route('seller.dashboard')),
+                        'user' => redirect()->route('home'),
+                        default => redirect()->route('welcome'),
+                    };
                 }
             };
         });
@@ -42,11 +44,22 @@ class FortifyServiceProvider extends ServiceProvider
                 public function toResponse($request)
                 {
                     $role = $request->user()->role;
-                    return redirect()->intended(match ($role) {
-                        'admin' => route('admin.dashboard'),
-                        'seller' => route('seller.dashboard'),
-                        default => route('dashboard'),
-                    });
+                    return match ($role) {
+                        'admin' => redirect()->intended(route('admin.dashboard')),
+                        'seller' => redirect()->intended(route('seller.dashboard')),
+                        'user' => redirect()->route('home'),
+                        default => redirect()->route('home'),
+                    };
+                }
+            };
+        });
+
+        // Redirect users to the welcome page after logout
+        $this->app->singleton(LogoutResponse::class, function () {
+            return new class implements LogoutResponse {
+                public function toResponse($request)
+                {
+                    return redirect()->route('welcome');
                 }
             };
         });

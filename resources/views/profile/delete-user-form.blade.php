@@ -1,4 +1,4 @@
-<x-action-section>
+<x-user-action-section>
     <x-slot name="title">
         {{ __('Delete Account') }}
     </x-slot>
@@ -19,7 +19,7 @@
         </div>
 
         <!-- Delete User Confirmation Modal -->
-        <x-dialog-modal wire:model.live="confirmingUserDeletion">
+        <x-user-dialog-modal wire:model.live="confirmingUserDeletion">
             <x-slot name="title">
                 {{ __('Delete Account') }}
             </x-slot>
@@ -48,6 +48,6 @@
                     {{ __('Delete Account') }}
                 </x-danger-button>
             </x-slot>
-        </x-dialog-modal>
+        </x-user-dialog-modal>
     </x-slot>
-</x-action-section>
+</x-user-action-section>

@@ -1,4 +1,4 @@
-<x-action-section>
+<x-user-action-section>
     <x-slot name="title">
         {{ __('Browser Sessions') }}
     </x-slot>
@@ -30,7 +30,7 @@
                         </div>
 
                         <div class="ms-3">
-                            <div class="text-sm text-gray-600">
+                            <div class="text-sm text-gray-700">
                                 {{ $session->agent->platform() ? $session->agent->platform() : __('Unknown') }} - {{ $session->agent->browser() ? $session->agent->browser() : __('Unknown') }}
                             </div>
 
@@ -62,7 +62,7 @@
         </div>
 
         <!-- Log Out Other Devices Confirmation Modal -->
-        <x-dialog-modal wire:model.live="confirmingLogout">
+        <x-user-dialog-modal wire:model.live="confirmingLogout">
             <x-slot name="title">
                 {{ __('Log Out Other Browser Sessions') }}
             </x-slot>
@@ -71,7 +71,7 @@
                 {{ __('Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.') }}
 
                 <div class="mt-4" x-data="{}" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-input type="password" class="mt-1 block w-3/4"
+                    <x-input type="password" class="mt-1 block w-3/4 bg-white/10 border-gray-600 text-white placeholder-gray-400 focus:border-yellow-400 focus:ring-yellow-400"
                                 autocomplete="current-password"
                                 placeholder="{{ __('Password') }}"
                                 x-ref="password"
@@ -93,6 +93,6 @@
                     {{ __('Log Out Other Browser Sessions') }}
                 </x-button>
             </x-slot>
-        </x-dialog-modal>
+        </x-user-dialog-modal>
     </x-slot>
-</x-action-section>
+</x-user-action-section>
