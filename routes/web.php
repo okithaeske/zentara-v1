@@ -9,6 +9,10 @@ Route::view('/welcome', 'welcome')->name('welcome');
 Route::view('/about', 'pages.about')->name('about');
 Route::view('/contact', 'pages.contact')->name('contact');
 
+// Contact form submission
+use App\Http\Controllers\ContactController;
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.submit');
+
 // routes/web.php
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->group(function () {
