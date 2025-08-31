@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'pages.home')->name('home');
-Route::view('/welcome', 'welcome')->name('welcome');
+Route::view('/', 'welcome')->name('welcome');
+Route::view('/home', 'pages.home')->name('home');
 
 // Public pages
 Route::view('/about', 'pages.about')->name('about');
