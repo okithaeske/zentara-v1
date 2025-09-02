@@ -50,7 +50,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                            <a href="{{ route('seller.orders.index') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
                                 </svg>
@@ -59,7 +59,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                            <a href="{{ route('seller.products.index') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V7a2 2 0 00-2-2h-3l-1-2H10L9 5H6a2 2 0 00-2 2v6m16 0v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4m16 0H4"/>
                                 </svg>
@@ -67,7 +67,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                            <a href="{{ route('seller.inventory.index') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13l-8 4-8-4m16 0l-8-4-8 4m16 0v6l-8 4-8-4v-6"/>
                                 </svg>
@@ -75,7 +75,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                            <a href="{{ route('seller.payouts.index') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12c0 4.418-4.03 8-9 8s-9-3.582-9-8 4.03-8 9-8 9 3.582 9 8z"/>
@@ -84,7 +84,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                            <a href="{{ route('seller.products.create') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                                 </svg>
@@ -92,7 +92,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                            <a href="{{ route('seller.settings') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17a2 2 0 104 0 2 2 0 00-4 0zM7 7h10M7 11h10M7 15h6"/>
                                 </svg>
@@ -131,11 +131,11 @@
                     </div>
                     <nav class="mt-4 space-y-1">
                         <a href="{{ route('seller.dashboard') }}" class="block px-3 py-2 rounded-md bg-white/5 text-yellow-200">Dashboard</a>
-                        <a href="#" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Orders</a>
-                        <a href="#" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Products</a>
-                        <a href="#" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Inventory</a>
-                        <a href="#" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Payouts</a>
-                        <a href="#" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Settings</a>
+                        <a href="{{ route('seller.orders.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Orders</a>
+                        <a href="{{ route('seller.products.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Products</a>
+                        <a href="{{ route('seller.inventory.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Inventory</a>
+                        <a href="{{ route('seller.payouts.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Payouts</a>
+                        <a href="{{ route('seller.settings') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Settings</a>
                     </nav>
                 </div>
             </div>

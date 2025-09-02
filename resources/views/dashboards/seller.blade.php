@@ -10,7 +10,7 @@
                 <p class="text-sm text-gray-300">Quick overview of your watch store</p>
             </div>
             <div class="flex items-center gap-2">
-                <a href="#" class="px-3 py-2 rounded-md bg-yellow-500 text-gray-900 text-sm font-semibold">Add Product</a>
+                <a href="{{ route('seller.products.create') }}" class="px-3 py-2 rounded-md bg-yellow-500 text-gray-900 text-sm font-semibold">Add Product</a>
                 <a href="#" class="px-3 py-2 rounded-md bg-white/10 text-gray-100 text-sm">Create Discount</a>
             </div>
         </div>

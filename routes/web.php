@@ -23,6 +23,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
         Route::middleware(RoleMiddleware::class . ':seller')->group(function () {
             Route::get('/seller/dashboard', fn() => view('dashboards.seller'))->name('seller.dashboard');
+
+            // Seller placeholder routes
+            Route::view('/seller/orders', 'seller.orders.index')->name('seller.orders.index');
+            Route::view('/seller/products', 'seller.products.index')->name('seller.products.index');
+            Route::view('/seller/products/create', 'seller.products.create')->name('seller.products.create');
+            Route::view('/seller/inventory', 'seller.inventory.index')->name('seller.inventory.index');
+            Route::view('/seller/payouts', 'seller.payouts.index')->name('seller.payouts.index');
+            Route::view('/seller/settings', 'seller.settings.index')->name('seller.settings');
         });
 
         Route::middleware(RoleMiddleware::class . ':admin')->group(function () {
