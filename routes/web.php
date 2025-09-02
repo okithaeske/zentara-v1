@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RoleMiddleware;
 
 Route::view('/', 'welcome')->name('welcome');
 Route::view('/home', 'pages.home')->name('home');
@@ -20,11 +21,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         // user default: send to public home instead of a user dashboard
         Route::get('/dashboard', fn() => redirect()->route('home'))->name('dashboard');
 
-        Route::middleware('role:seller')->group(function () {
+        Route::middleware(RoleMiddleware::class . ':seller')->group(function () {
             Route::get('/seller/dashboard', fn() => view('dashboards.seller'))->name('seller.dashboard');
         });
 
-        Route::middleware('role:admin')->group(function () {
+        Route::middleware(RoleMiddleware::class . ':admin')->group(function () {
             Route::get('/admin/dashboard', fn() => view('dashboards.admin'))->name('admin.dashboard');
         });
     });
