@@ -5,7 +5,14 @@ import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 import collapse from '@alpinejs/collapse';
 
+// Expose Alpine and defer its start until Livewire is ready
+window.Alpine = Alpine;
+
+// If Livewire is used, ensure Alpine starts after Livewire is fully booted
+window.deferLoadingAlpine = (callback) => {
+    window.addEventListener('livewire:load', callback);
+};
+
 Alpine.plugin(focus);
 Alpine.plugin(collapse);
-window.Alpine = Alpine;
 Alpine.start();
