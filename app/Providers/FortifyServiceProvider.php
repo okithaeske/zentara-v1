@@ -13,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\TwoFactorLoginResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Fortify;
@@ -26,6 +27,22 @@ class FortifyServiceProvider extends ServiceProvider
     {
         $this->app->singleton(LoginResponse::class, function () {
             return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $role = $request->user()->role;
+                    return match ($role) {
+                        'admin' => redirect()->intended(route('admin.dashboard')),
+                        'seller' => redirect()->intended(route('seller.dashboard')),
+                        'user' => redirect()->route('home'),
+                        default => redirect()->route('welcome'),
+                    };
+                }
+            };
+        });
+
+        // Ensure post-2FA challenge uses same role-based redirects
+        $this->app->singleton(TwoFactorLoginResponse::class, function () {
+            return new class implements TwoFactorLoginResponse {
                 public function toResponse($request)
                 {
                     $role = $request->user()->role;

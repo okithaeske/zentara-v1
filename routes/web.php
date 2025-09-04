@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\RoleMiddleware;
 
 Route::view('/', 'welcome')->name('welcome');
@@ -17,6 +18,15 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.subm
 // routes/web.php
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])
     ->group(function () {
+        // Quick test route to verify email sending (logs in dev)
+        Route::get('/test-email', function () {
+            $user = auth()->user();
+            Mail::raw('This is a test email from ' . config('app.name'), function ($m) use ($user) {
+                $m->to($user->email, $user->name)->subject('Test Email');
+            });
+
+            return 'Test email dispatched. Check your mail delivery or storage/logs/laravel.log if MAIL_MAILER=log (default).';
+        })->name('test-email');
 
         // user default: send to public home instead of a user dashboard
         Route::get('/dashboard', fn() => redirect()->route('home'))->name('dashboard');
