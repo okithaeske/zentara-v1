@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
+use App\Http\Controllers\ProductController as PublicProductController;
 use Illuminate\Http\Request;
 
 Route::view('/', 'welcome')->name('welcome');
@@ -12,6 +13,10 @@ Route::view('/home', 'pages.home')->name('home');
 // Public pages
 Route::view('/about', 'pages.about')->name('about');
 Route::view('/contact', 'pages.contact')->name('contact');
+
+// Public products
+Route::get('/products', [PublicProductController::class, 'index'])->name('products.index');
+Route::get('/products/{product}', [PublicProductController::class, 'show'])->name('products.show');
 
 // Contact form submission
 use App\Http\Controllers\ContactController;
@@ -31,7 +36,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
         })->name('test-email');
 
         // Role-aware dashboard redirect
-        Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
+        Route::get('/dashboard', function (Request $request) {
             $user = $request->user();
             if (!$user) {
                 return redirect()->route('welcome');
