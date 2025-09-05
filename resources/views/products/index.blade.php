@@ -22,7 +22,7 @@
             @else
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($products as $product)
-                        <a href="{{ route('products.show', $product->id) }}" class="group bg-white rounded-xl shadow hover:shadow-lg border border-gray-100 overflow-hidden transition">
+                        <div class="group bg-white rounded-xl shadow hover:shadow-lg border border-gray-100 overflow-hidden transition">
                             <div class="aspect-square bg-gray-100 overflow-hidden">
                                 @if ($product->image_path)
                                     <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition" />
@@ -30,14 +30,21 @@
                                     <div class="w-full h-full flex items-center justify-center text-gray-400">No image</div>
                                 @endif
                             </div>
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold text-gray-900 truncate">{{ $product->name }}</h3>
-                                <div class="mt-2 flex items-center justify-between">
+                            <div class="p-4 space-y-3">
+                                <a href="{{ route('products.show', $product->id) }}" class="block">
+                                    <h3 class="text-lg font-semibold text-gray-900 truncate hover:underline">{{ $product->name }}</h3>
+                                </a>
+                                <div class="flex items-center justify-between">
                                     <span class="text-xl font-bold">${{ number_format($product->price, 2) }}</span>
                                     <span class="text-sm text-gray-500">SKU: {{ $product->sku }}</span>
                                 </div>
+                                <form method="POST" action="{{ route('cart.add', $product->id) }}" class="pt-1">
+                                    @csrf
+                                    <input type="hidden" name="qty" value="1">
+                                    <button class="w-full px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800">Add to Cart</button>
+                                </form>
                             </div>
-                        </a>
+                        </div>
                     @endforeach
                 </div>
 
@@ -48,4 +55,3 @@
         </div>
     </section>
 </x-user-layout>
-

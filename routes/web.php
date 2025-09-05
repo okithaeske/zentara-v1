@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
 use App\Http\Controllers\ProductController as PublicProductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Http\Request;
 
 Route::view('/', 'welcome')->name('welcome');
@@ -17,6 +19,20 @@ Route::view('/contact', 'pages.contact')->name('contact');
 // Public products
 Route::get('/products', [PublicProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [PublicProductController::class, 'show'])->name('products.show');
+
+// Cart (session-based)
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+
+// Checkout
+Route::middleware(['auth'])->group(function () {
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+});
 
 // Contact form submission
 use App\Http\Controllers\ContactController;
