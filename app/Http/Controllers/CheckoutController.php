@@ -21,7 +21,8 @@ class CheckoutController extends Controller
         if (empty($cart['items'])) {
             return redirect()->route('products.index')->with('status', 'Your cart is empty.');
         }
-        return view('checkout.index', compact('cart'));
+        $stripeEnabled = (bool) (env('STRIPE_PUBLIC') && env('STRIPE_SECRET'));
+        return view('checkout.index', compact('cart', 'stripeEnabled'));
     }
 
     public function store(Request $request)
@@ -41,6 +42,7 @@ class CheckoutController extends Controller
             'shipping_postal_code' => ['required', 'string', 'max:20'],
             'notes' => ['nullable', 'string', 'max:2000'],
             'payment_method' => ['required', 'in:cod,card'],
+            'payment_intent_id' => ['nullable', 'string'],
         ]);
 
         $user = $request->user();
@@ -67,9 +69,19 @@ class CheckoutController extends Controller
             $shipping = 0.00; // Flat for now; could compute later
             $total = $subtotal + $shipping;
 
+            // Verify Stripe payment intent if paying by card and configured
+            if ($data['payment_method'] === 'card' && env('STRIPE_SECRET') && !empty($data['payment_intent_id'])) {
+                $intentId = $data['payment_intent_id'];
+                $resp = \Illuminate\Support\Facades\Http::withBasicAuth(env('STRIPE_SECRET'), '')
+                    ->get('https://api.stripe.com/v1/payment_intents/' . urlencode($intentId));
+                if (!$resp->successful() || !in_array($resp->json('status'), ['succeeded', 'requires_capture'])) {
+                    abort(422, 'Payment not completed.');
+                }
+            }
+
             $order = Order::create([
                 'user_id' => $user?->id,
-                'status' => $data['payment_method'] === 'cod' ? 'pending' : 'pending',
+                'status' => $data['payment_method'] === 'cod' ? 'pending' : 'paid',
                 'subtotal' => round($subtotal, 2),
                 'shipping_amount' => round($shipping, 2),
                 'total' => round($total, 2),
@@ -114,5 +126,31 @@ class CheckoutController extends Controller
     {
         return view('checkout.success', compact('order'));
     }
-}
 
+    public function createPaymentIntent(Request $request)
+    {
+        $cart = $this->cart();
+        abort_if(empty($cart['items']), 422, 'Cart is empty');
+
+        $subtotal = (float) $cart['subtotal'];
+        $shipping = 0.0;
+        $amount = (int) round(($subtotal + $shipping) * 100);
+
+        $secret = env('STRIPE_SECRET');
+        abort_unless($secret, 500, 'Stripe is not configured');
+
+        $response = \Illuminate\Support\Facades\Http::withBasicAuth($secret, '')
+            ->asForm()
+            ->post('https://api.stripe.com/v1/payment_intents', [
+                'amount' => $amount,
+                'currency' => env('STRIPE_CURRENCY', 'usd'),
+                'automatic_payment_methods[enabled]' => 'true',
+            ]);
+
+        if (!$response->successful()) {
+            return response()->json(['error' => 'Unable to create payment.'], 422);
+        }
+
+        return response()->json($response->json());
+    }
+}

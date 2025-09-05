@@ -255,6 +255,11 @@
                         class="block pl-6 pr-4 py-3 text-base font-medium text-gray-300 hover:text-yellow-400 hover:bg-gray-800 transition-all duration-200">
                         {{ __('Profile') }}
                     </x-user-responsive-nav-link>
+                    <x-user-responsive-nav-link href="{{ route('orders.index') }}"
+                        :active="request()->routeIs('orders.*')"
+                        class="block pl-6 pr-4 py-3 text-base font-medium text-gray-300 hover:text-yellow-400 hover:bg-gray-800 transition-all duration-200">
+                        {{ __('My Orders') }}
+                    </x-user-responsive-nav-link>
 
                     @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                         <x-user-responsive-nav-link href="{{ route('api-tokens.index') }}"

@@ -20,21 +20,21 @@
             <div class="glass rounded-xl p-4 border border-yellow-500/10">
                 <div class="text-gray-300 text-sm">Today Revenue</div>
                 <div class="mt-2 flex items-end justify-between">
-                    <div class="text-2xl font-semibold text-yellow-200">$0.00</div>
+                    <div class="text-2xl font-semibold text-yellow-200">${{ number_format($revenueToday ?? 0, 2) }}</div>
                     <div class="text-xs text-gray-400">+0.0%</div>
                 </div>
             </div>
             <div class="glass rounded-xl p-4 border border-yellow-500/10">
                 <div class="text-gray-300 text-sm">Orders to Fulfill</div>
                 <div class="mt-2 flex items-end justify-between">
-                    <div class="text-2xl font-semibold text-yellow-200">0</div>
+                    <div class="text-2xl font-semibold text-yellow-200">{{ $ordersToFulfill ?? 0 }}</div>
                     <div class="text-xs text-gray-400">SLA: —</div>
                 </div>
             </div>
             <div class="glass rounded-xl p-4 border border-yellow-500/10">
                 <div class="text-gray-300 text-sm">Low Stock Alerts</div>
                 <div class="mt-2 flex items-end justify-between">
-                    <div class="text-2xl font-semibold text-yellow-200">0</div>
+                    <div class="text-2xl font-semibold text-yellow-200">{{ $lowStockCount ?? 0 }}</div>
                     <div class="text-xs text-gray-400">Threshold: 5</div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="xl:col-span-2 glass rounded-xl border border-yellow-500/10">
                 <div class="p-4 border-b border-white/5 flex items-center justify-between">
                     <h2 class="text-base font-semibold text-yellow-200">Recent Orders</h2>
-                    <a href="#" class="text-xs text-yellow-300 hover:underline">View all</a>
+                    <a href="{{ route('seller.orders.index') }}" class="text-xs text-yellow-300 hover:underline">View all</a>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="min-w-full text-sm">
@@ -67,6 +67,17 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white/5">
+                            @if (!empty($recentOrders))
+                                @foreach ($recentOrders as $o)
+                                    <tr>
+                                        <td class="px-4 py-3 text-gray-300">#{{ $o['id'] }}</td>
+                                        <td class="px-4 py-3 text-gray-300">{{ $o['shipping_name'] }}</td>
+                                        <td class="px-4 py-3 text-gray-300">{{ $o['items_count'] }}</td>
+                                        <td class="px-4 py-3 text-gray-300">${{ number_format($o['total'], 2) }}</td>
+                                        <td class="px-4 py-3"><span class="px-2 py-1 text-xs rounded bg-white/10 text-gray-300">{{ ucfirst($o['status']) }}</span></td>
+                                    </tr>
+                                @endforeach
+                            @else
                             <tr>
                                 <td class="px-4 py-3 text-gray-300">—</td>
                                 <td class="px-4 py-3 text-gray-300">—</td>
@@ -74,6 +85,7 @@
                                 <td class="px-4 py-3 text-gray-300">—</td>
                                 <td class="px-4 py-3"><span class="px-2 py-1 text-xs rounded bg-white/10 text-gray-300">—</span></td>
                             </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>

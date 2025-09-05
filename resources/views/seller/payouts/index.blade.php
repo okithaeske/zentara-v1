@@ -10,7 +10,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="glass rounded-xl p-4 border border-yellow-500/10">
             <div class="text-gray-300 text-sm">Current Balance</div>
-            <div class="text-2xl font-semibold text-yellow-200 mt-2">$0.00</div>
+            <div class="text-2xl font-semibold text-yellow-200 mt-2">${{ number_format($currentBalance ?? 0, 2) }}</div>
         </div>
         <div class="glass rounded-xl p-4 border border-yellow-500/10">
             <div class="text-gray-300 text-sm">Next Payout</div>
@@ -18,7 +18,7 @@
         </div>
         <div class="glass rounded-xl p-4 border border-yellow-500/10">
             <div class="text-gray-300 text-sm">Fees (30d)</div>
-            <div class="text-2xl font-semibold text-yellow-200 mt-2">$0.00</div>
+            <div class="text-2xl font-semibold text-yellow-200 mt-2">${{ number_format($fees30d ?? 0, 2) }}</div>
         </div>
     </div>
 
@@ -28,4 +28,3 @@
     </div>
 </div>
 @endsection
-

@@ -17,8 +17,11 @@ class RoleMiddleware
     {
         $user = $request->user();
 
-        if (!$request->user() || $request->user()->role !== $role) {
+        if (!$user || $user->role !== $role) {
             abort(403);
+        }
+        if (property_exists($user, 'banned') ? $user->banned : (isset($user->banned) && $user->banned)) {
+            abort(403, 'Account is disabled.');
         }
         return $next($request);
     }

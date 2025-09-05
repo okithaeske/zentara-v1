@@ -4,9 +4,14 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Seller\ProductController as SellerProductController;
+use App\Http\Controllers\Seller\OrderController as SellerOrderController;
+use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
+use App\Http\Controllers\Seller\InventoryController as SellerInventoryController;
+use App\Http\Controllers\Seller\PayoutController as SellerPayoutController;
 use App\Http\Controllers\ProductController as PublicProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 
 Route::view('/', 'welcome')->name('welcome');
@@ -32,6 +37,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+    Route::post('/checkout/payment-intent', [CheckoutController::class, 'createPaymentIntent'])->name('checkout.intent');
+
+    // Orders
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 
 // Contact form submission
@@ -65,13 +75,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
         })->name('dashboard');
 
         Route::middleware(RoleMiddleware::class . ':seller')->group(function () {
-            Route::get('/seller/dashboard', fn() => view('dashboards.seller'))->name('seller.dashboard');
+            Route::get('/seller/dashboard', [SellerDashboardController::class, 'index'])->name('seller.dashboard');
 
             // Seller routes
-            Route::view('/seller/orders', 'seller.orders.index')->name('seller.orders.index');
+            Route::get('/seller/orders', [SellerOrderController::class, 'index'])->name('seller.orders.index');
+            Route::get('/seller/orders/{order}', [SellerOrderController::class, 'show'])->name('seller.orders.show');
             Route::resource('/seller/products', SellerProductController::class)->names('seller.products');
-            Route::view('/seller/inventory', 'seller.inventory.index')->name('seller.inventory.index');
-            Route::view('/seller/payouts', 'seller.payouts.index')->name('seller.payouts.index');
+            Route::get('/seller/inventory', [SellerInventoryController::class, 'index'])->name('seller.inventory.index');
+            Route::get('/seller/payouts', [SellerPayoutController::class, 'index'])->name('seller.payouts.index');
             Route::view('/seller/settings', 'seller.settings.index')->name('seller.settings');
         });
 
