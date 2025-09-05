@@ -53,9 +53,9 @@
                 </div>
             @else
                 <!-- Products Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
                     @foreach ($products as $product)
-                        <div class="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 hover:-translate-y-1">
+                        <div class="group relative bg-white rounded-xl shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 hover:-translate-y-1">
                             
                             <!-- Product Image -->
                             <div class="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
@@ -65,54 +65,54 @@
                                          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                 @else
                                     <div class="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                                        <svg class="w-16 h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                         </svg>
-                                        <span class="text-sm font-medium">No image available</span>
+                                        <span class="text-xs font-medium">No image</span>
                                     </div>
                                 @endif
                                 
                                 <!-- Overlay with Quick View -->
                                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                     <a href="{{ route('products.show', $product->id) }}" 
-                                       class="px-6 py-3 bg-white text-gray-900 rounded-full font-medium hover:bg-gray-100 transition-colors duration-200 transform scale-95 group-hover:scale-100">
+                                       class="px-4 py-2 bg-white text-gray-900 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors duration-200 transform scale-95 group-hover:scale-100">
                                         Quick View
                                     </a>
                                 </div>
                             </div>
                             
                             <!-- Product Details -->
-                            <div class="p-6 space-y-4">
-                                <div class="space-y-2">
+                            <div class="p-4 space-y-3">
+                                <div class="space-y-1">
                                     <a href="{{ route('products.show', $product->id) }}" class="block group/link">
-                                        <h3 class="text-xl font-semibold text-gray-900 group-hover/link:text-yellow-600 transition-colors duration-200 leading-tight">
+                                        <h3 class="text-lg font-semibold text-gray-900 group-hover/link:text-yellow-600 transition-colors duration-200 leading-tight line-clamp-2">
                                             {{ $product->name }}
                                         </h3>
                                     </a>
-                                    <p class="text-sm text-gray-500 uppercase tracking-wide font-medium">
+                                    <p class="text-xs text-gray-500 uppercase tracking-wide font-medium">
                                         SKU: {{ $product->sku }}
                                     </p>
                                 </div>
                                 
                                 <!-- Price -->
-                                <div class="flex items-center justify-between pt-2">
-                                    <span class="text-2xl font-bold text-gray-900">
+                                <div class="flex items-center justify-between pt-1">
+                                    <span class="text-xl font-bold text-gray-900">
                                         ${{ number_format($product->price, 2) }}
                                     </span>
                                     @if($product->original_price && $product->original_price > $product->price)
-                                        <span class="text-lg text-gray-400 line-through">
+                                        <span class="text-sm text-gray-400 line-through">
                                             ${{ number_format($product->original_price, 2) }}
                                         </span>
                                     @endif
                                 </div>
                                 
                                 <!-- Add to Cart Button -->
-                                <form method="POST" action="{{ route('cart.add', $product->id) }}" class="pt-2">
+                                <form method="POST" action="{{ route('cart.add', $product->id) }}" class="pt-1">
                                     @csrf
                                     <input type="hidden" name="qty" value="1">
-                                    <button class="w-full px-6 py-3 bg-gradient-to-r from-gray-900 to-black text-white rounded-xl font-medium hover:from-black hover:to-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-gray-900/20">
-                                        <span class="flex items-center justify-center space-x-2">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <button class="w-full px-4 py-2.5 bg-gradient-to-r from-gray-900 to-black text-white text-sm rounded-lg font-medium hover:from-black hover:to-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-gray-900/20">
+                                        <span class="flex items-center justify-center space-x-1.5">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6"></path>
                                             </svg>
                                             <span>Add to Cart</span>

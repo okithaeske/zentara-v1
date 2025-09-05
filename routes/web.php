@@ -8,6 +8,8 @@ use App\Http\Controllers\Seller\OrderController as SellerOrderController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Controllers\Seller\InventoryController as SellerInventoryController;
 use App\Http\Controllers\Seller\PayoutController as SellerPayoutController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ProductController as PublicProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -87,6 +89,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
         });
 
         Route::middleware(RoleMiddleware::class . ':admin')->group(function () {
-            Route::get('/admin/dashboard', fn() => view('dashboards.admin'))->name('admin.dashboard');
+            Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+            Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+            Route::patch('/admin/users/{user}/toggle-ban', [AdminUserController::class, 'toggleBan'])->name('admin.users.toggle-ban');
         });
     });
