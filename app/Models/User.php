@@ -10,6 +10,10 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property string $role
+ * @property bool $banned
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;

@@ -21,11 +21,29 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function toggleBan(User $user)
+    public function toggleBan(Request $request, User $user)
     {
-        $user->banned = !$user->banned;
+        $currentId = $request->user()?->getKey();
+        if ($currentId === $user->getKey()) {
+            return redirect()->back()->withErrors('You cannot ban yourself.');
+        }
+        $newBanned = !((bool) $user->getAttribute('banned'));
+        $user->setAttribute('banned', $newBanned);
         $user->save();
-        return redirect()->back()->with('status', $user->banned ? 'User banned.' : 'User unbanned.');
+        return redirect()->back()->with('status', $newBanned ? 'User banned.' : 'User unbanned.');
+    }
+
+    public function destroy(Request $request, User $user)
+    {
+        $currentId = $request->user()?->getKey();
+        if ($currentId === $user->getKey()) {
+            return redirect()->back()->withErrors('You cannot delete yourself.');
+        }
+        // Optionally prevent deleting other admins
+        // if ($user->role === 'admin') {
+        //     return redirect()->back()->withErrors('Cannot delete an admin account.');
+        // }
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('status', 'User deleted.');
     }
 }
-

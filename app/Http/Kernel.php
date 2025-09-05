@@ -54,5 +54,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         // role alias
         'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'disallow-admin-shopping' => \App\Http\Middleware\DisallowAdminShopping::class,
     ];
 }

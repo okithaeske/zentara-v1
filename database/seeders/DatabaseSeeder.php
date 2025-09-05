@@ -14,15 +14,28 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        User::firstOrCreate(
-            ['email' => 'admin@example.com'],
-            ['name' => 'Admin', 'password' => Hash::make('admin123'), 'role' => 'admin']
+        // Create or update the primary admin user from env or defaults
+        $adminEmail = env('ADMIN_EMAIL', 'admin@example.com');
+        $adminPassword = env('ADMIN_PASSWORD', 'admin123');
+        $adminName = env('ADMIN_NAME', 'Admin');
+
+        User::updateOrCreate(
+            ['email' => $adminEmail],
+            [
+                'name' => $adminName,
+                'password' => Hash::make($adminPassword),
+                'role' => 'admin',
+                'email_verified_at' => now(),
+                'banned' => false,
+            ]
         );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Optional: demo user
+        if (!User::where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
     }
 }

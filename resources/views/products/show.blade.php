@@ -39,11 +39,16 @@
                     </div>
 
                     <div class="mt-8 flex flex-col sm:flex-row gap-3">
-                        <form method="POST" action="{{ route('cart.add', $product->id) }}" class="flex gap-3">
-                            @csrf
-                            <input type="number" name="qty" value="1" min="1" max="{{ $product->stock ?? 999 }}" class="w-24 px-3 py-3 border rounded-lg" />
-                            <button class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800">Add to Cart</button>
-                        </form>
+                        @php($isAdmin = auth()->check() && (auth()->user()->role === 'admin'))
+                        @unless($isAdmin)
+                            <form method="POST" action="{{ route('cart.add', $product->id) }}" class="flex gap-3">
+                                @csrf
+                                <input type="number" name="qty" value="1" min="1" max="{{ $product->stock ?? 999 }}" class="w-24 px-3 py-3 border rounded-lg" />
+                                <button class="px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800">Add to Cart</button>
+                            </form>
+                        @else
+                            <button class="px-6 py-3 bg-gray-700 text-gray-300 rounded-lg cursor-not-allowed" disabled>Cart disabled for admin</button>
+                        @endunless
                         <a href="{{ route('products.index') }}" class="px-6 py-3 border border-gray-300 rounded-lg hover:bg-gray-100">Continue shopping</a>
                     </div>
                 </div>

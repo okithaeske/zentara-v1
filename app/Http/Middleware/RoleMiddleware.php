@@ -13,14 +13,20 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string $roles): Response
     {
         $user = $request->user();
 
-        if (!$user || $user->role !== $role) {
+        // Support multiple roles e.g. 'seller,admin' or 'seller|admin'
+        $allowed = preg_split('/[|,]/', $roles);
+        $allowed = array_map('trim', $allowed);
+
+        $role = $user && method_exists($user, 'getAttribute') ? $user->getAttribute('role') : null;
+        if (!$user || !in_array((string) $role, $allowed, true)) {
             abort(403);
         }
-        if (property_exists($user, 'banned') ? $user->banned : (isset($user->banned) && $user->banned)) {
+        $banned = $user && method_exists($user, 'getAttribute') ? (bool) $user->getAttribute('banned') : false;
+        if ($banned) {
             abort(403, 'Account is disabled.');
         }
         return $next($request);

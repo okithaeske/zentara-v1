@@ -1,4 +1,4 @@
-@extends('layouts.seller')
+@extends('layouts.admin')
 
 @section('content')
 <div class="space-y-6">
@@ -40,12 +40,17 @@
                             <td class="px-4 py-3">
                                 <span class="px-2 py-1 text-xs rounded {{ $user->banned ? 'bg-red-500/20 text-red-300' : 'bg-white/10 text-gray-300' }}">{{ $user->banned ? 'Yes' : 'No' }}</span>
                             </td>
-                            <td class="px-4 py-3 text-right">
+                            <td class="px-4 py-3 text-right space-x-2">
                                 @if(auth()->id() !== $user->id)
-                                    <form method="POST" action="{{ route('admin.users.toggle-ban', $user) }}">
+                                    <form method="POST" action="{{ route('admin.users.toggle-ban', $user) }}" class="inline">
                                         @csrf
                                         @method('PATCH')
                                         <button class="px-2 py-1 text-xs rounded {{ $user->banned ? 'bg-white/10 text-gray-200' : 'bg-yellow-500 text-gray-900' }}">{{ $user->banned ? 'Unban' : 'Ban' }}</button>
+                                    </form>
+                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="inline" onsubmit="return confirm('Delete this user? This cannot be undone.');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="px-2 py-1 text-xs rounded bg-red-600 text-white">Delete</button>
                                     </form>
                                 @endif
                             </td>
@@ -60,4 +65,3 @@
     </div>
 </div>
 @endsection
-

@@ -52,20 +52,23 @@
                     </svg>
                 </button>
 
-                <!-- Cart Icon -->
-                <a href="{{ route('cart.index') }}"
-                    class="p-2 text-gray-300 hover:text-yellow-400 hover:bg-gray-800 rounded-lg transition-all duration-200 relative"
-                    aria-label="Shopping Cart">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4" />
-                    </svg>
-                    @php($cartCount = session('cart.count', session('cart')['count'] ?? 0))
-                    @if ($cartCount > 0)
-                        <span
-                            class="absolute -top-1 -right-1 bg-yellow-500 text-gray-900 text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">{{ $cartCount }}</span>
-                    @endif
-                </a>
+                <!-- Cart Icon (hidden for admins) -->
+                @php($isAdmin = auth()->check() && (auth()->user()->role === 'admin'))
+                @unless($isAdmin)
+                    <a href="{{ route('cart.index') }}"
+                        class="p-2 text-gray-300 hover:text-yellow-400 hover:bg-gray-800 rounded-lg transition-all duration-200 relative"
+                        aria-label="Shopping Cart">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13v6a2 2 0 002 2h6a2 2 0 002-2v-6m-8 0V9a2 2 0 012-2h4a2 2 0 012 2v4" />
+                        </svg>
+                        @php($cartCount = session('cart.count', session('cart')['count'] ?? 0))
+                        @if ($cartCount > 0)
+                            <span
+                                class="absolute -top-1 -right-1 bg-yellow-500 text-gray-900 text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">{{ $cartCount }}</span>
+                        @endif
+                    </a>
+                @endunless
 
                 @auth
                     <!-- Teams Dropdown -->

@@ -10,6 +10,8 @@ use App\Http\Controllers\Seller\InventoryController as SellerInventoryController
 use App\Http\Controllers\Seller\PayoutController as SellerPayoutController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\SellerController as AdminSellerController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\ProductController as PublicProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -27,15 +29,15 @@ Route::view('/contact', 'pages.contact')->name('contact');
 Route::get('/products', [PublicProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [PublicProductController::class, 'show'])->name('products.show');
 
-// Cart (session-based)
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
-Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+// Cart (session-based) - disallow admins
+Route::get('/cart', [CartController::class, 'index'])->middleware('disallow-admin-shopping')->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->middleware('disallow-admin-shopping')->name('cart.add');
+Route::patch('/cart/update/{product}', [CartController::class, 'update'])->middleware('disallow-admin-shopping')->name('cart.update');
+Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->middleware('disallow-admin-shopping')->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->middleware('disallow-admin-shopping')->name('cart.clear');
 
 // Checkout
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','disallow-admin-shopping'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
@@ -76,7 +78,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
             };
         })->name('dashboard');
 
-        Route::middleware(RoleMiddleware::class . ':seller')->group(function () {
+        // Allow both sellers and admins to access seller area (useful for admin support)
+        Route::middleware(RoleMiddleware::class . ':seller,admin')->group(function () {
             Route::get('/seller/dashboard', [SellerDashboardController::class, 'index'])->name('seller.dashboard');
 
             // Seller routes
@@ -92,5 +95,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
             Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
             Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
             Route::patch('/admin/users/{user}/toggle-ban', [AdminUserController::class, 'toggleBan'])->name('admin.users.toggle-ban');
+            Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+
+            // Sellers listing and their products
+            Route::get('/admin/sellers', [AdminSellerController::class, 'index'])->name('admin.sellers.index');
+            Route::get('/admin/sellers/{seller}/products', [AdminSellerController::class, 'products'])->name('admin.sellers.products');
+
+            // Admin product moderation
+            Route::patch('/admin/products/{product}/status', [AdminProductController::class, 'updateStatus'])->name('admin.products.update-status');
+            Route::delete('/admin/products/{product}', [AdminProductController::class, 'destroy'])->name('admin.products.destroy');
         });
     });
