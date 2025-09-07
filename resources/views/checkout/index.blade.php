@@ -45,25 +45,32 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium mb-2">Payment Method</label>
-                        <div class="flex flex-col gap-3">
-                            <label class="inline-flex items-center gap-2">
-                                <input type="radio" name="payment_method" value="cod" class="h-4 w-4" checked>
-                                <span>Cash on Delivery</span>
-                            </label>
-                            <label class="inline-flex items-center gap-2">
-                                <input type="radio" name="payment_method" value="card" class="h-4 w-4" @if(!($stripeEnabled ?? false)) disabled @endif>
-                                <span class="@if(!($stripeEnabled ?? false)) text-gray-500 @endif">Card @if(!($stripeEnabled ?? false)) (enable Stripe to use) @endif</span>
-                            </label>
-                            @if ($stripeEnabled ?? false)
-                                <div id="card-section" class="hidden mt-2 space-y-3">
-                                    <div id="card-element" class="p-3 border rounded-lg bg-white"></div>
-                                    <div id="card-errors" class="text-sm text-red-600"></div>
-                                    <input type="hidden" name="payment_intent_id" id="payment_intent_id" />
-                                </div>
-                            @endif
+                    <input type="hidden" name="payment_method" value="card" />
+                    <div class="space-y-4">
+                        <h2 class="text-lg font-semibold">Card Details</h2>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Name on Card</label>
+                            <input type="text" name="card_name" value="{{ old('card_name') }}" class="w-full px-4 py-2 border rounded-lg" required>
                         </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Card Number</label>
+                            <input type="text" inputmode="numeric" autocomplete="cc-number" name="card_number" value="{{ old('card_number') }}" class="w-full px-4 py-2 border rounded-lg" placeholder="4242 4242 4242 4242" required>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Exp. Month</label>
+                                <input type="number" name="card_exp_month" value="{{ old('card_exp_month') }}" class="w-full px-4 py-2 border rounded-lg" min="1" max="12" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Exp. Year</label>
+                                <input type="number" name="card_exp_year" value="{{ old('card_exp_year') }}" class="w-full px-4 py-2 border rounded-lg" min="{{ date('Y') }}" max="{{ date('Y') + 15 }}" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">CVC</label>
+                                <input type="password" inputmode="numeric" name="card_cvc" value="" class="w-full px-4 py-2 border rounded-lg" maxlength="4" required>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600">Note: This demo validates card details locally and records a transaction; it does not charge your card.</p>
                     </div>
 
                     <button id="place-order" class="px-6 py-3 bg-yellow-500 text-gray-900 font-semibold rounded-lg hover:bg-yellow-400">Place Order</button>
@@ -97,87 +104,5 @@
             </div>
         </div>
     </section>
-    @if ($stripeEnabled ?? false)
-        <script src="https://js.stripe.com/v3/"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', async () => {
-                const cardRadio = document.querySelector('input[name="payment_method"][value="card"]');
-                const codRadio = document.querySelector('input[name="payment_method"][value="cod"]');
-                const cardSection = document.getElementById('card-section');
-                const form = document.querySelector('form[action="{{ route('checkout.store') }}"]');
-                const placeBtn = document.getElementById('place-order');
-                const stripe = Stripe('{{ config('services.stripe.key') }}');
-                let elements, card, clientSecret;
-
-                function mountCard() {
-                    if (elements) return;
-                    elements = stripe.elements({
-                        appearance: {
-                            theme: 'flat',
-                            variables: {
-                                colorText: '#111827',
-                                colorTextPlaceholder: '#9CA3AF',
-                                colorBackground: '#ffffff',
-                                borderRadius: '8px',
-                                fontFamily: 'Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif',
-                            },
-                        },
-                    });
-                    card = elements.create('payment');
-                    card.mount('#card-element');
-                }
-
-                function toggleCardSection() {
-                    if (cardRadio && cardRadio.checked) {
-                        cardSection?.classList.remove('hidden');
-                        mountCard();
-                    } else {
-                        cardSection?.classList.add('hidden');
-                    }
-                }
-
-                [cardRadio, codRadio].forEach(r => r && r.addEventListener('change', toggleCardSection));
-                toggleCardSection();
-
-                async function ensureIntent() {
-                    if (clientSecret) return clientSecret;
-                    const res = await fetch('{{ route('checkout.intent') }}', {
-                        method: 'POST',
-                        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content },
-                    });
-                    const data = await res.json();
-                    if (!res.ok || !data.client_secret) throw new Error('Payment init failed');
-                    clientSecret = data.client_secret;
-                    return clientSecret;
-                }
-
-                form.addEventListener('submit', async (e) => {
-                    if (!cardRadio || !cardRadio.checked) return; // COD flow
-                    e.preventDefault();
-                    placeBtn.disabled = true;
-                    try {
-                        mountCard();
-                        const secret = await ensureIntent();
-                        const { error, paymentIntent } = await stripe.confirmPayment({
-                            elements,
-                            clientSecret: secret,
-                            confirmParams: {},
-                            redirect: 'if_required',
-                        });
-                        if (error) throw error;
-                        if (paymentIntent && (paymentIntent.status === 'succeeded' || paymentIntent.status === 'requires_capture')) {
-                            document.getElementById('payment_intent_id').value = paymentIntent.id;
-                            form.submit();
-                        } else {
-                            throw new Error('Payment not completed.');
-                        }
-                    } catch (err) {
-                        const el = document.getElementById('card-errors');
-                        if (el) el.textContent = err.message || 'Payment failed.';
-                        placeBtn.disabled = false;
-                    }
-                });
-            });
-        </script>
-    @endif
+    
 </x-user-layout>

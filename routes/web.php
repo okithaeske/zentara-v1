@@ -30,18 +30,17 @@ Route::get('/products', [PublicProductController::class, 'index'])->name('produc
 Route::get('/products/{product}', [PublicProductController::class, 'show'])->name('products.show');
 
 // Cart (session-based) - disallow admins
-Route::get('/cart', [CartController::class, 'index'])->middleware('disallow-admin-shopping')->name('cart.index');
-Route::post('/cart/add/{product}', [CartController::class, 'add'])->middleware('disallow-admin-shopping')->name('cart.add');
-Route::patch('/cart/update/{product}', [CartController::class, 'update'])->middleware('disallow-admin-shopping')->name('cart.update');
-Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->middleware('disallow-admin-shopping')->name('cart.remove');
-Route::delete('/cart/clear', [CartController::class, 'clear'])->middleware('disallow-admin-shopping')->name('cart.clear');
+Route::get('/cart', [CartController::class, 'index'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.add');
+Route::patch('/cart/update/{product}', [CartController::class, 'update'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.update');
+Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.clear');
 
 // Checkout
-Route::middleware(['auth','disallow-admin-shopping'])->group(function () {
+Route::middleware(['auth', \App\Http\Middleware\DisallowAdminShopping::class])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
-    Route::post('/checkout/payment-intent', [CheckoutController::class, 'createPaymentIntent'])->name('checkout.intent');
 
     // Orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

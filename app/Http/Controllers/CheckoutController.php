@@ -21,8 +21,7 @@ class CheckoutController extends Controller
         if (empty($cart['items'])) {
             return redirect()->route('products.index')->with('status', 'Your cart is empty.');
         }
-        $stripeEnabled = (bool) (env('STRIPE_PUBLIC') && env('STRIPE_SECRET'));
-        return view('checkout.index', compact('cart', 'stripeEnabled'));
+        return view('checkout.index', compact('cart'));
     }
 
     public function store(Request $request)
@@ -41,8 +40,13 @@ class CheckoutController extends Controller
             'shipping_country' => ['required', 'string', 'max:100'],
             'shipping_postal_code' => ['required', 'string', 'max:20'],
             'notes' => ['nullable', 'string', 'max:2000'],
-            'payment_method' => ['required', 'in:cod,card'],
-            'payment_intent_id' => ['nullable', 'string'],
+            'payment_method' => ['required', 'in:card'],
+            // Card inputs (not stored):
+            'card_name' => ['required', 'string', 'max:255'],
+            'card_number' => ['required', 'string'],
+            'card_exp_month' => ['required', 'integer', 'between:1,12'],
+            'card_exp_year' => ['required', 'integer', 'min:' . (int)date('Y'), 'max:' . ((int)date('Y') + 15)],
+            'card_cvc' => ['required', 'string', 'min:3', 'max:4'],
         ]);
 
         $user = $request->user();
@@ -69,19 +73,24 @@ class CheckoutController extends Controller
             $shipping = 0.00; // Flat for now; could compute later
             $total = $subtotal + $shipping;
 
-            // Verify Stripe payment intent if paying by card and configured
-            if ($data['payment_method'] === 'card' && env('STRIPE_SECRET') && !empty($data['payment_intent_id'])) {
-                $intentId = $data['payment_intent_id'];
-                $resp = \Illuminate\Support\Facades\Http::withBasicAuth(env('STRIPE_SECRET'), '')
-                    ->get('https://api.stripe.com/v1/payment_intents/' . urlencode($intentId));
-                if (!$resp->successful() || !in_array($resp->json('status'), ['succeeded', 'requires_capture'])) {
-                    abort(422, 'Payment not completed.');
-                }
+            // Validate card locally (Luhn + basic checks). This does NOT charge.
+            $digits = preg_replace('/\D+/', '', $data['card_number']);
+            if (!$digits || strlen($digits) < 12 || strlen($digits) > 19 || !self::luhnValid($digits)) {
+                abort(422, 'Invalid card number.');
+            }
+            $brand = self::detectBrand($digits);
+            $last4 = substr($digits, -4);
+            $expYear = (int) $data['card_exp_year'];
+            $expMonth = (int) $data['card_exp_month'];
+            $nowYear = (int) date('Y');
+            $nowMonth = (int) date('n');
+            if ($expYear === $nowYear && $expMonth < $nowMonth) {
+                abort(422, 'Card is expired.');
             }
 
             $order = Order::create([
                 'user_id' => $user?->id,
-                'status' => $data['payment_method'] === 'cod' ? 'pending' : 'paid',
+                'status' => 'paid',
                 'subtotal' => round($subtotal, 2),
                 'shipping_amount' => round($shipping, 2),
                 'total' => round($total, 2),
@@ -113,6 +122,21 @@ class CheckoutController extends Controller
                 }
             }
 
+            // Record a transaction (no sensitive data stored)
+            \App\Models\Transaction::create([
+                'order_id' => $order->id,
+                'amount' => round($total, 2),
+                'currency' => config('cashier.currency', env('STRIPE_CURRENCY', 'usd')),
+                'method' => 'card',
+                'gateway' => 'offline',
+                'status' => 'captured',
+                'card_last4' => $last4,
+                'card_brand' => $brand,
+                'card_exp_month' => $expMonth,
+                'card_exp_year' => $expYear,
+                'reference' => 'OFF-' . \Illuminate\Support\Str::uuid(),
+            ]);
+
             return $order;
         });
 
@@ -127,30 +151,24 @@ class CheckoutController extends Controller
         return view('checkout.success', compact('order'));
     }
 
-    public function createPaymentIntent(Request $request)
+
+    private static function luhnValid(string $number): bool
     {
-        $cart = $this->cart();
-        abort_if(empty($cart['items']), 422, 'Cart is empty');
-
-        $subtotal = (float) $cart['subtotal'];
-        $shipping = 0.0;
-        $amount = (int) round(($subtotal + $shipping) * 100);
-
-        $secret = env('STRIPE_SECRET');
-        abort_unless($secret, 500, 'Stripe is not configured');
-
-        $response = \Illuminate\Support\Facades\Http::withBasicAuth($secret, '')
-            ->asForm()
-            ->post('https://api.stripe.com/v1/payment_intents', [
-                'amount' => $amount,
-                'currency' => env('STRIPE_CURRENCY', 'usd'),
-                'automatic_payment_methods[enabled]' => 'true',
-            ]);
-
-        if (!$response->successful()) {
-            return response()->json(['error' => 'Unable to create payment.'], 422);
+        $sum = 0; $alt = false;
+        for ($i = strlen($number) - 1; $i >= 0; $i--) {
+            $n = (int)$number[$i];
+            if ($alt) { $n *= 2; if ($n > 9) { $n -= 9; } }
+            $sum += $n; $alt = !$alt;
         }
+        return $sum % 10 === 0;
+    }
 
-        return response()->json($response->json());
+    private static function detectBrand(string $digits): string
+    {
+        if (preg_match('/^4\d{12,18}$/', $digits)) return 'visa';
+        if (preg_match('/^(5[1-5]\d{14}|2(2[2-9]\d{12}|[3-6]\d{13}|7[01]\d{12}|720\d{12}))$/', $digits)) return 'mastercard';
+        if (preg_match('/^(34|37)\d{13}$/', $digits)) return 'amex';
+        if (preg_match('/^6(011\d{12}|5\d{14}|4[4-9]\d{13})$/', $digits)) return 'discover';
+        return 'card';
     }
 }
