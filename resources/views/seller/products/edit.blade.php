@@ -52,7 +52,7 @@
                     <span class="text-sm text-gray-300">Image</span>
                     <div class="mt-2 flex items-start gap-4">
                         @if ($product->image_path)
-                            <img src="{{ asset('storage/'.$product->image_path) }}" alt="Product image" class="h-24 w-24 object-cover rounded border border-white/10" />
+                            <img src="{{ Storage::url($product->image_path) }}" alt="Product image" class="h-24 w-24 object-cover rounded border border-white/10" />
                         @else
                             <div class="h-24 w-24 rounded bg-white/5 border border-white/10 flex items-center justify-center text-xs text-gray-400">No image</div>
                         @endif

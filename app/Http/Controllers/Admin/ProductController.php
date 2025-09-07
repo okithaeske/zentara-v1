@@ -24,10 +24,9 @@ class ProductController extends Controller
             return back()->withErrors('Cannot delete a product that has order history.');
         }
         if ($product->image_path) {
-            Storage::disk('public')->delete($product->image_path);
+            Storage::delete($product->image_path);
         }
         $product->delete();
         return back()->with('status', 'Product deleted.');
     }
 }
-

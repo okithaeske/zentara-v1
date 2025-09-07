@@ -47,7 +47,7 @@
                         <tr>
                             <td class="px-4 py-3">
                                 @if ($product->image_path)
-                                    <img src="{{ asset('storage/'.$product->image_path) }}" alt="{{ $product->name }}" class="h-10 w-10 rounded object-cover border border-white/10" />
+                                    <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}" class="h-10 w-10 rounded object-cover border border-white/10" />
                                 @else
                                     <div class="h-10 w-10 rounded bg-white/5 border border-white/10"></div>
                                 @endif

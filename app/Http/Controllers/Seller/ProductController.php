@@ -49,7 +49,7 @@ class ProductController extends Controller
         $data['status'] = $request->input('action') === 'publish' ? 'published' : 'draft';
 
         if ($request->hasFile('image')) {
-            $data['image_path'] = $request->file('image')->store('products', 'public');
+            $data['image_path'] = $request->file('image')->store('products');
         }
 
         $product = Product::create($data);
@@ -91,16 +91,16 @@ class ProductController extends Controller
 
         if ($request->boolean('remove_image')) {
             if ($product->image_path) {
-                Storage::disk('public')->delete($product->image_path);
+                Storage::delete($product->image_path);
             }
             $data['image_path'] = null;
         }
 
         if ($request->hasFile('image')) {
             if ($product->image_path) {
-                Storage::disk('public')->delete($product->image_path);
+                Storage::delete($product->image_path);
             }
-            $data['image_path'] = $request->file('image')->store('products', 'public');
+            $data['image_path'] = $request->file('image')->store('products');
         }
 
         $product->update($data);
