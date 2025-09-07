@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Register route middleware aliases here (Laravel 11 style)
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'disallow-admin-shopping' => \App\Http\Middleware\DisallowAdminShopping::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

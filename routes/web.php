@@ -30,14 +30,14 @@ Route::get('/products', [PublicProductController::class, 'index'])->name('produc
 Route::get('/products/{product}', [PublicProductController::class, 'show'])->name('products.show');
 
 // Cart (session-based) - disallow admins
-Route::get('/cart', [CartController::class, 'index'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.index');
-Route::post('/cart/add/{product}', [CartController::class, 'add'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.add');
-Route::patch('/cart/update/{product}', [CartController::class, 'update'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.update');
-Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.remove');
-Route::delete('/cart/clear', [CartController::class, 'clear'])->middleware(\App\Http\Middleware\DisallowAdminShopping::class)->name('cart.clear');
+Route::get('/cart', [CartController::class, 'index'])->middleware('disallow-admin-shopping')->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->middleware('disallow-admin-shopping')->name('cart.add');
+Route::patch('/cart/update/{product}', [CartController::class, 'update'])->middleware('disallow-admin-shopping')->name('cart.update');
+Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->middleware('disallow-admin-shopping')->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->middleware('disallow-admin-shopping')->name('cart.clear');
 
 // Checkout
-Route::middleware(['auth', \App\Http\Middleware\DisallowAdminShopping::class])->group(function () {
+Route::middleware(['auth','disallow-admin-shopping'])->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
     Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
@@ -78,7 +78,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
         })->name('dashboard');
 
         // Allow both sellers and admins to access seller area (useful for admin support)
-        Route::middleware(RoleMiddleware::class . ':seller,admin')->group(function () {
+        Route::middleware('role:seller,admin')->group(function () {
             Route::get('/seller/dashboard', [SellerDashboardController::class, 'index'])->name('seller.dashboard');
 
             // Seller routes
@@ -90,7 +90,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
             Route::view('/seller/settings', 'seller.settings.index')->name('seller.settings');
         });
 
-        Route::middleware(RoleMiddleware::class . ':admin')->group(function () {
+        Route::middleware('role:admin')->group(function () {
             Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
             Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
             Route::patch('/admin/users/{user}/toggle-ban', [AdminUserController::class, 'toggleBan'])->name('admin.users.toggle-ban');

@@ -52,8 +52,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        // role alias
-        'role' => \App\Http\Middleware\RoleMiddleware::class,
-        'disallow-admin-shopping' => \App\Http\Middleware\DisallowAdminShopping::class,
+        // Custom aliases are registered in bootstrap/app.php via withMiddleware()
     ];
 }
