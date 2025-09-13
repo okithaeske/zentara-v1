@@ -11,6 +11,8 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        @livewireStyles
+
         <style>
             .bg-luxury-gradient { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 30%, #16213e 70%, #0f3460 100%); }
             .text-luxury-gold { background: linear-gradient(45deg, #d4af37, #ffd700, #ffed4e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -114,5 +116,7 @@
                 </div>
             </main>
         </div>
+
+        @livewireScripts
     </body>
 </html>
