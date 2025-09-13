@@ -29,7 +29,7 @@
                             <td class="px-4 py-3 text-gray-300">{{ $product->stock }}</td>
                             <td class="px-4 py-3"><span class="px-2 py-1 text-xs rounded bg-white/10 text-gray-300">{{ ucfirst($product->status) }}</span></td>
                             <td class="px-4 py-3 text-right space-x-2">
-                                <a href="{{ route('seller.products.edit', $product) }}" class="px-2 py-1 text-xs rounded bg-yellow-500 text-gray-900">Edit</a>
+                                <a href="{{ route('admin.products.edit', ['product' => $product, 'return' => request()->fullUrl()]) }}" class="px-2 py-1 text-xs rounded bg-yellow-500 text-gray-900">Edit</a>
                                 <button wire:click="toggleStatus({{ $product->id }})" class="px-2 py-1 text-xs rounded {{ $product->status === 'published' ? 'bg-white/10 text-gray-200' : 'bg-green-500 text-gray-900' }}">
                                     {{ $product->status === 'published' ? 'Unpublish' : 'Publish' }}
                                 </button>
@@ -49,4 +49,3 @@
         </div>
     </div>
 </div>
-

@@ -101,6 +101,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
             Route::get('/admin/sellers/{seller}/products', [AdminSellerController::class, 'products'])->name('admin.sellers.products');
 
             // Admin product moderation
+            Route::get('/admin/products/{product}/edit', [AdminProductController::class, 'edit'])->name('admin.products.edit');
+            Route::put('/admin/products/{product}', [AdminProductController::class, 'update'])->name('admin.products.update');
             Route::patch('/admin/products/{product}/status', [AdminProductController::class, 'updateStatus'])->name('admin.products.update-status');
             Route::delete('/admin/products/{product}', [AdminProductController::class, 'destroy'])->name('admin.products.destroy');
         });

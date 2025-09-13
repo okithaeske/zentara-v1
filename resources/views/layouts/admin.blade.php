@@ -107,10 +107,10 @@
             <main class="lg:pl-72">
                 <div class="px-4 sm:px-6 lg:px-8 py-6">
                     @if (session('status'))
-                        <div class="mb-4 p-3 rounded border border-green-200 bg-green-50 text-green-800 text-sm">{{ session('status') }}</div>
+                        <div class="mb-4 px-4 py-2 rounded border border-green-600/30 bg-green-600/20 text-green-300 text-sm">{{ session('status') }}</div>
                     @endif
                     @if ($errors->any())
-                        <div class="mb-4 p-3 rounded border border-red-200 bg-red-50 text-red-800 text-sm">{{ $errors->first() }}</div>
+                        <div class="mb-4 px-4 py-2 rounded border border-red-600/30 bg-red-600/20 text-red-300 text-sm">{{ $errors->first() }}</div>
                     @endif
                     @yield('content')
                 </div>
