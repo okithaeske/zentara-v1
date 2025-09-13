@@ -73,6 +73,15 @@
                             </a>
                         </li>
                         <li>
+                            <a href="{{ route('profile.show') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.88 6.196 9 9 0 015.12 17.804z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                                Profile
+                            </a>
+                        </li>
+                        <li>
                             <a href="{{ route('seller.payouts.index') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z" />
@@ -132,6 +141,7 @@
                         <a href="{{ route('seller.orders.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Orders</a>
                         <a href="{{ route('seller.products.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Products</a>
                         <a href="{{ route('seller.inventory.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Inventory</a>
+                        <a href="{{ route('profile.show') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Profile</a>
                         <a href="{{ route('seller.payouts.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Payouts</a>
                         <a href="{{ route('seller.settings') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Settings</a>
                     </nav>

@@ -84,6 +84,12 @@
     </head>
     <body class="font-inter antialiased text-white">
         <div class="min-h-screen bg-white">
+            @if(auth()->check() && auth()->user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="fixed top-4 right-4 z-50 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-500 text-gray-900 shadow-lg hover:bg-yellow-400 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M13 5v6m8 8h-6a2 2 0 01-2-2v-4H9v4a2 2 0 01-2 2H1"/></svg>
+                    Admin Dashboard
+                </a>
+            @endif
             <x-user-nav />
 
             @if (isset($header))
