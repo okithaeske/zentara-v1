@@ -25,30 +25,9 @@
             </div>
         </div>
     @else
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-16">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-16">
             @foreach ($products as $product)
-                <a href="{{ route('products.show', $product) }}" class="group relative bg-white rounded-xl shadow-sm hover:shadow-2xl border border-gray-100 overflow-hidden transition-all duration-500 hover:-translate-y-1">
-                    <div class="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
-                        @if ($product->image_path)
-                            <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                        @else
-                            <div class="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                                <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                                <span class="text-xs">No image</span>
-                            </div>
-                        @endif
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    </div>
-                    <div class="p-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <h3 class="font-semibold text-gray-900 truncate">{{ $product->name }}</h3>
-                            <span class="text-gray-900 font-semibold">${{ number_format($product->price, 2) }}</span>
-                        </div>
-                        <div class="text-sm text-gray-500">SKU: {{ $product->sku }}</div>
-                    </div>
-                </a>
+                <x-product-card :product="$product" />
             @endforeach
         </div>
         <div>
@@ -56,4 +35,3 @@
         </div>
     @endif
 </div>
-
