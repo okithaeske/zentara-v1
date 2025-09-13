@@ -55,7 +55,7 @@
                 <!-- Cart Icon (hidden for admins) -->
                 @php($isAdmin = auth()->check() && (auth()->user()->role === 'admin'))
                 @unless($isAdmin)
-                    <a href="{{ route('cart.index') }}"
+                    <button type="button" onclick="window.Livewire && Livewire.dispatch('mini-cart-open')"
                         class="p-2 text-gray-300 hover:text-yellow-400 hover:bg-gray-800 rounded-lg transition-all duration-200 relative"
                         aria-label="Shopping Cart">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +67,7 @@
                             <span
                                 class="absolute -top-1 -right-1 bg-yellow-500 text-gray-900 text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">{{ $cartCount }}</span>
                         @endif
-                    </a>
+                    </button>
                 @endunless
 
                 @auth

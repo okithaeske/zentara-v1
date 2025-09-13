@@ -91,6 +91,17 @@
                 </a>
             @endif
             <x-user-nav />
+            <livewire:products.quick-view />
+            <livewire:cart.mini />
+
+            <div
+                x-data="{ show:false, message:'', timeout: null }"
+                x-init="window.addEventListener('toast', e => { clearTimeout(timeout); message = e.detail?.message || 'Saved.'; show = true; timeout = setTimeout(() => show = false, 2000); });"
+                x-show="show"
+                x-transition
+                class="fixed bottom-6 right-6 z-[97] bg-gray-900 text-white px-4 py-3 rounded-lg shadow-lg">
+                <span x-text="message"></span>
+            </div>
 
             @if (isset($header))
                 <header class="glass-effect">

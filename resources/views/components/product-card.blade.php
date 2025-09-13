@@ -16,9 +16,9 @@
                 @endif
             </div>
         </a>
-        <a href="{{ route('products.show', $product) }}" class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <button type="button" onclick="window.Livewire && Livewire.dispatch('quick-view-open', { id: {{ $product->id }} })" class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <span class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">Quick View</span>
-        </a>
+        </button>
     </div>
     <div class="p-5 sm:p-6 space-y-3 flex-1">
         <div class="space-y-1">

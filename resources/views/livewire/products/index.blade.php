@@ -1,13 +1,31 @@
 <div>
-    <div class="mb-12">
-        <div class="max-w-2xl mx-auto">
-            <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
+    <div class="mb-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <div class="md:col-span-2">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="search" wire:model.debounce.400ms="q" placeholder="Search for luxury products..." class="w-full pl-12 pr-4 py-3 bg-white border-2 border-gray-200 rounded-lg shadow-sm focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20 focus:outline-none transition-all duration-300" />
+                    </div>
                 </div>
-                <input type="search" wire:model.debounce.400ms="q" placeholder="Search for luxury products..." class="w-full pl-12 pr-4 py-4 text-lg bg-white border-2 border-gray-200 rounded-full shadow-sm focus:border-yellow-500 focus:ring-2 focus:ring-yellow-500/20 focus:outline-none transition-all duration-300" />
+                <div class="flex items-center gap-2">
+                    <input type="number" min="0" wire:model.lazy="min" placeholder="Min" class="w-full px-3 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                    <input type="number" min="0" wire:model.lazy="max" placeholder="Max" class="w-full px-3 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                </div>
+                <div class="flex items-center gap-3 justify-between">
+                    <label class="inline-flex items-center gap-2 text-gray-700">
+                        <input type="checkbox" wire:model="inStock" class="rounded border-gray-300"> In stock
+                    </label>
+                    <select wire:model="sort" class="px-3 py-3 bg-white border-2 border-gray-200 rounded-lg">
+                        <option value="newest">Newest</option>
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
