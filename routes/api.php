@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ContactMessageController;
 use App\Http\Controllers\Api\SellerProductController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
 use App\Http\Controllers\Api\UserController as ApiUserController;
+use App\Http\Controllers\Api\AuthController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -23,8 +24,9 @@ Route::middleware(['auth:sanctum'])
 // Public endpoint for products (with seller info)
 Route::get('/products', [ApiProductController::class, 'index']);
 
-// Public user endpoints
-Route::get('/users', [ApiUserController::class, 'index']);
+
+// Auth endpoints
+Route::post('/login', [AuthController::class, 'login']);
 
 
     
