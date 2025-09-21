@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrderController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $orders = Order::where('user_id', $request->user()->id)
@@ -16,9 +18,8 @@ class OrderController extends Controller
 
     public function show(Request $request, Order $order)
     {
-        abort_unless($order->user_id === $request->user()->id, 403);
+        $this->authorize('view', $order);
         $order->load('items');
         return view('orders.show', compact('order'));
     }
 }
-

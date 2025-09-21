@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProductController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $query = $request->user()->products()->latest();
@@ -61,18 +63,14 @@ class ProductController extends Controller
 
     public function edit(Request $request, Product $product)
     {
-        if ($product->user_id !== $request->user()->id) {
-            abort(403);
-        }
+        $this->authorize('update', $product);
 
         return view('seller.products.edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
     {
-        if ($product->user_id !== $request->user()->id) {
-            abort(403);
-        }
+        $this->authorize('update', $product);
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -112,9 +110,7 @@ class ProductController extends Controller
 
     public function destroy(Request $request, Product $product)
     {
-        if ($product->user_id !== $request->user()->id) {
-            abort(403);
-        }
+        $this->authorize('delete', $product);
         if ($product->image_path) {
             Storage::disk('public')->delete($product->image_path);
         }

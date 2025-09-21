@@ -5,6 +5,7 @@ namespace App\Livewire\Checkout;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
@@ -45,7 +46,7 @@ class Form extends Component
 
     public function mount(): void
     {
-        $user = auth()->user();
+        $user = Auth::user();
         if ($user) {
             $this->shipping_name = $user->name ?? '';
             $this->shipping_email = $user->email ?? '';
@@ -107,7 +108,7 @@ class Form extends Component
             }
 
             $order = Order::create([
-                'user_id' => auth()->id(),
+                'user_id' => Auth::id(),
                 'status' => 'paid',
                 'subtotal' => round($subtotal, 2),
                 'shipping_amount' => round($shipping, 2),
@@ -185,4 +186,3 @@ class Form extends Component
         return view('livewire.checkout.form');
     }
 }
-

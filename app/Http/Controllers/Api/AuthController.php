@@ -20,6 +20,8 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+        // Mitigate session fixation when authenticating via the web guard
+        $request->session()->regenerate();
 
         /** @var User $user */
         $user = User::where('email', $credentials['email'])->firstOrFail();
@@ -35,4 +37,3 @@ class AuthController extends Controller
         ]);
     }
 }
-

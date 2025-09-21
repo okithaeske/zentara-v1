@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrderController extends Controller
 {
+    use AuthorizesRequests;
     public function index(Request $request)
     {
         $sellerId = $request->user()->id;
@@ -33,10 +35,9 @@ class OrderController extends Controller
 
     public function show(Request $request, Order $order)
     {
-        $sellerId = $request->user()->id;
-        abort_unless($order->items()->whereHas('product', fn($q) => $q->where('user_id', $sellerId))->exists(), 403);
-
+        $this->authorize('view', $order);
         $order->load('items.product');
+        $sellerId = $request->user()->id;
         $sellerItems = $order->items->filter(fn($it) => optional($it->product)->user_id === $sellerId);
         $sellerTotal = round($sellerItems->sum('total'), 2);
 
@@ -47,4 +48,3 @@ class OrderController extends Controller
         ]);
     }
 }
-

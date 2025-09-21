@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withProviders([
-        \App\Providers\FortifyServiceProvider::class, // <- add your custom provider(s) here
+        \App\Providers\FortifyServiceProvider::class,
+        \App\Providers\AuthServiceProvider::class,
     ])
     ->create();
