@@ -7,30 +7,27 @@ use App\Models\User;
 use App\Actions\Fortify\CreateNewUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     // POST /api/login
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $data = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
         ]);
 
-        if (!Auth::attempt($credentials)) {
+        /** @var User|null $user */
+        $user = User::where('email', $data['email'])->first();
+        if (!$user || !Hash::check($data['password'], $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-        // Mitigate session fixation when authenticating via the web guard
-        $request->session()->regenerate();
-
-        /** @var User $user */
-        $user = User::where('email', $credentials['email'])->firstOrFail();
 
         $tokenName = $request->userAgent() ?: 'api';
         $token = $user->createToken($tokenName)->plainTextToken;
 
-        // Do not expose password; model already hides sensitive fields
         return response()->json([
             'token' => $token,
             'token_type' => 'Bearer',
