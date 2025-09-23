@@ -16,6 +16,7 @@ use App\Http\Controllers\ProductController as PublicProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Api\ContactMessageController;
 use Illuminate\Http\Request;
 
 Route::view('/', 'welcome')->name('welcome');
@@ -106,4 +107,9 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
             Route::patch('/admin/products/{product}/status', [AdminProductController::class, 'updateStatus'])->name('admin.products.update-status');
             Route::delete('/admin/products/{product}', [AdminProductController::class, 'destroy'])->name('admin.products.destroy');
         });
+
+        // Contacts (moved from API to web; cookie/session auth)
+        Route::get('/contacts', [ContactMessageController::class, 'index']);
+        Route::post('/contacts', [ContactMessageController::class, 'store']);
+        Route::get('/contacts/{contactMessage}', [ContactMessageController::class, 'show']);
     });
