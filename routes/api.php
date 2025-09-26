@@ -21,7 +21,7 @@ Route::get('/products', [ApiProductController::class, 'index']);
 
 // Auth endpoints
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
-Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:api');
+Route::post('/register', [AuthController::class, 'register']);
 
 
     
