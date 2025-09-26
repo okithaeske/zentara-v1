@@ -113,13 +113,9 @@ return [
         ],
 
         'mongodb' => [
-            'driver' => env('DB_CONNECTION', 'mongodb'),
+            'driver' => 'mongodb',
             'dsn' => env('MONGODB_URI'),
             'database' => env('MONGODB_DATABASE', 'zentara-m0'),
-            'options' => [
-                'tls' => true,
-                'tlsCAFile' => 'C:\xampp\php\extras\ssl\cacert.pem',
-            ],
         ],
 
     ],

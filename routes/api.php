@@ -23,5 +23,3 @@ Route::get('/products', [ApiProductController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
 Route::post('/register', [AuthController::class, 'register']);
 
-
-    
