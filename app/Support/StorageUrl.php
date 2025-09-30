@@ -4,6 +4,7 @@ namespace App\Support;
 
 use Aws\Exception\InvalidRegionException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -35,6 +36,7 @@ class StorageUrl
 
         foreach ($disks as $disk) {
             try {
+                /** @var FilesystemAdapter $storage */
                 $storage = Storage::disk($disk);
                 $url = $storage->url($normalized);
 
