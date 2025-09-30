@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\OrderItem;
+use Aws\Exception\InvalidRegionException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
-use App\Models\OrderItem;
+use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 class Product extends Model
 {
@@ -39,17 +42,38 @@ class Product extends Model
 
     public function getImageUrlAttribute(): ?string
     {
-        if (!$this->image_path) {
+        $path = $this->image_path;
+
+        if (!$path) {
             return null;
         }
 
-        $url = Storage::url($this->image_path);
-
-        // Ensure absolute URL for non-S3/public disks
-        if (is_string($url) && !str_starts_with($url, 'http://') && !str_starts_with($url, 'https://')) {
-            return url($url);
+        if (Str::startsWith($path, ['http://', 'https://'])) {
+            return $path;
         }
 
-        return $url;
+        $normalized = ltrim($path, '/');
+        if (Str::startsWith($normalized, 'storage/')) {
+            $normalized = Str::after($normalized, 'storage/');
+        }
+
+        $disks = array_filter(array_unique([
+            'public',
+            config('filesystems.default'),
+        ]));
+
+        foreach ($disks as $disk) {
+            try {
+                $storage = Storage::disk($disk);
+                $url = $storage->url($normalized);
+                if ($url) {
+                    return Str::startsWith($url, ['http://', 'https://']) ? $url : url($url);
+                }
+            } catch (InvalidArgumentException|InvalidRegionException $exception) {
+                continue;
+            }
+        }
+
+        return asset('storage/' . $normalized);
     }
 }
