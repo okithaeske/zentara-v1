@@ -16,10 +16,11 @@
                 <div class="lg:col-span-2">
                     <div class="space-y-4">
                         @foreach ($cart['items'] as $item)
+                            @php($imageUrl = \App\Support\StorageUrl::for($item['image'] ?? null))
                             <div class="flex flex-col sm:flex-row gap-4 p-4 border rounded-lg">
                                 <div class="w-full sm:w-28 h-28 bg-gray-100 rounded overflow-hidden">
-                                    @if ($item['image'])
-                                        <img src="{{ Storage::url($item['image']) }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover">
+                                    @if ($imageUrl)
+                                        <img src="{{ $imageUrl }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-gray-400">No image</div>
                                     @endif
@@ -68,4 +69,3 @@
         @endif
     </div>
 </section>
-

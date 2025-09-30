@@ -5,17 +5,18 @@
             <div class="absolute inset-y-0 right-0 w-full max-w-md bg-white shadow-2xl z-[96] flex flex-col">
                 <div class="p-4 border-b flex items-center justify-between">
                     <h3 class="text-lg font-semibold">Your Cart</h3>
-                    <button class="text-gray-500 hover:text-gray-700" wire:click="close" aria-label="Close">✕</button>
+                    <button class="text-gray-500 hover:text-gray-700" wire:click="close" aria-label="Close">&times;</button>
                 </div>
                 <div class="flex-1 overflow-auto p-4 space-y-3">
                     @if (empty($cart['items']))
                         <p class="text-gray-500">Your cart is empty.</p>
                     @else
                         @foreach ($cart['items'] as $item)
+                            @php($imageUrl = \App\Support\StorageUrl::for($item['image'] ?? null))
                             <div class="flex gap-3 items-center">
                                 <div class="w-16 h-16 bg-gray-100 overflow-hidden rounded">
-                                    @if ($item['image'])
-                                        <img src="{{ Storage::url($item['image']) }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover">
+                                    @if ($imageUrl)
+                                        <img src="{{ $imageUrl }}" alt="{{ $item['name'] }}" class="w-full h-full object-cover">
                                     @endif
                                 </div>
                                 <div class="flex-1">
@@ -42,4 +43,3 @@
         </div>
     @endif
 </div>
-

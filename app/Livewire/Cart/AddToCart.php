@@ -39,7 +39,7 @@ class AddToCart extends Component
             'name' => $this->product->name,
             'price' => (float) $this->product->price,
             'qty' => $newQty,
-            'image' => $this->product->image_path,
+            'image' => $this->product->image_url ?? $this->product->image_path,
             'sku' => $this->product->sku,
         ];
         $cart['items'] = $items;
@@ -64,4 +64,3 @@ class AddToCart extends Component
         return view('livewire.cart.add-to-cart');
     }
 }
-

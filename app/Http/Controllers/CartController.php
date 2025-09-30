@@ -63,7 +63,7 @@ class CartController extends Controller
             'name' => $product->name,
             'price' => (float) $product->price,
             'qty' => $newQty,
-            'image' => $product->image_path,
+            'image' => $product->image_url ?? $product->image_path,
             'sku' => $product->sku,
         ];
         $cart['items'] = $items;
@@ -116,4 +116,3 @@ class CartController extends Controller
         return back()->with('status', 'Cart cleared.');
     }
 }
-
