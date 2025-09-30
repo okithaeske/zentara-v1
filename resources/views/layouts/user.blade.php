@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -79,7 +79,11 @@
                     radial-gradient(circle at 40% 90%, rgba(22, 33, 62, 0.3) 0%, transparent 50%);
             }
 
-            /* Note: Inputs use component-level classes for dark styling */
+            html, body { margin: 0; background-color: #000; }
+
+            body { background-color: #000; }
+
+            
         </style>
     </head>
     <body class="font-inter antialiased text-white">
@@ -91,7 +95,6 @@
                 </a>
             @endif
             <x-user-nav />
-            <livewire:products.quick-view />
             <livewire:cart.mini />
 
             <div
@@ -122,3 +125,10 @@
     </body>
     
 </html>
+
+
+
+
+
+
+

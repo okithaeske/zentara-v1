@@ -1,16 +1,15 @@
 <x-user-layout title="About">
     <x-slot name="header">
-        <h1 class="text-2xl font-semibold text-gray-900">About Zentara</h1>
+        <h1 class="text-2xl font-semibold text-gray-900">About Zentara UK</h1>
     </x-slot>
 
     <section class="py-12">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Hero Section -->
             <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-6">Finding Peace in a Chaotic World</h2>
+                <h2 class="text-4xl font-bold text-gray-900 mb-6">Crafting Time For Every Moment</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                    Zentara was born from a simple belief: everyone deserves access to inner peace, clarity, and mindful living. 
-                    In our fast-paced digital world, we create sacred spaces for reflection, growth, and transformation.
+                    Zentara UK is a London-based destination for carefully curated timepieces. We combine modern online convenience with the heritage of European watchmaking so you can discover a watch that matches every chapter of your life.
                 </p>
             </div>
 
@@ -19,14 +18,10 @@
                 <div class="prose prose-lg max-w-none">
                     <h3 class="text-2xl font-semibold text-gray-900 mb-6">Our Story</h3>
                     <p class="text-gray-700 leading-relaxed mb-6">
-                        Founded in 2023, Zentara emerged from the recognition that traditional meditation practices needed a modern, 
-                        accessible platform. Our founders, experienced meditation practitioners and wellness advocates, witnessed firsthand 
-                        how mindfulness could transform lives—reducing stress, improving focus, and fostering deeper connections with ourselves and others.
+                        Founded in 2015, Zentara UK began as a trusted marketplace for boutique watchmakers and collectors who wanted a more transparent way to buy and sell premium pieces. What started as a weekend pop-up in Shoreditch has grown into a nationwide ecommerce platform that champions craftsmanship, authenticity, and everyday versatility.
                     </p>
                     <p class="text-gray-700 leading-relaxed mb-6">
-                        The name "Zentara" combines the concepts of Zen—representing mindfulness and inner peace—with "tara," 
-                        meaning star in Sanskrit, symbolizing guidance and illumination. We aim to be your guiding star on the 
-                        journey toward greater awareness and well-being.
+                        We partner with independent workshops and established houses across the United Kingdom, Switzerland, Germany, and Japan. Every watch is inspected by our in-house horologists, verified for provenance, and supported by a robust aftercare program so you can wear your investment with confidence.
                     </p>
                 </div>
             </div>
@@ -36,171 +31,208 @@
                 <div class="bg-blue-50 rounded-lg p-8">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Mission</h3>
                     <p class="text-gray-700 leading-relaxed">
-                        To democratize mindfulness by providing authentic, accessible meditation experiences that fit seamlessly 
-                        into modern life. We bridge ancient wisdom with contemporary technology to support your journey toward 
-                        greater peace, clarity, and fulfillment.
+                        To make remarkable mechanical and hybrid timepieces accessible to enthusiasts and first-time buyers alike through expert guidance, honest pricing, and a seamless online experience.
                     </p>
                 </div>
                 <div class="bg-green-50 rounded-lg p-8">
                     <h3 class="text-xl font-semibold text-gray-900 mb-4">Our Vision</h3>
                     <p class="text-gray-700 leading-relaxed">
-                        A world where mindfulness is not a luxury but a fundamental part of daily life. We envision communities 
-                        of practitioners supporting each other in creating more compassionate, aware, and connected lives.
+                        To be the most trusted watch platform in the United Kingdom, connecting people to pieces that hold personal meaning while supporting the artisans who craft them.
                     </p>
                 </div>
             </div>
 
             <!-- Values -->
             <div class="mb-16">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Our Values</h3>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Brand Pillars</h3>
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.567-3 3.5S10.343 15 12 15s3-1.567 3-3.5S13.657 8 12 8z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m0-13.728l1.414 1.414m11.314 11.314l1.414 1.414" />
                             </svg>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Authenticity</h4>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Craftsmanship First</h4>
                         <p class="text-gray-600">
-                            We honor traditional meditation practices while making them relevant for contemporary life.
+                            Every brand we carry demonstrates meticulous engineering, responsible sourcing, and timeless aesthetics.
                         </p>
                     </div>
                     <div class="text-center">
                         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18m9-9H3"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Accessibility</h4>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Verified Transparency</h4>
                         <p class="text-gray-600">
-                            Mindfulness should be available to everyone, regardless of experience, schedule, or background.
+                            Independent authentication, comprehensive condition reports, and clear pricing underpin every purchase.
                         </p>
                     </div>
                     <div class="text-center">
                         <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15a7 7 0 0114 0c0 3.866-3.134 7-7 7s-7-3.134-7-7zm7-9a3 3 0 110-6 3 3 0 010 6z" />
                             </svg>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Transformation</h4>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Client Care</h4>
                         <p class="text-gray-600">
-                            We believe in the power of small, consistent practices to create profound personal change.
+                            Dedicated stylists, sizing experts, and technicians support you from discovery to long-term maintenance.
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- What We Offer -->
+            <!-- Why Choose Zentara UK -->
             <div class="mb-16">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-8">What We Offer</h3>
-                <div class="space-y-6">
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-3 mr-4"></div>
-                        <div>
-                            <h4 class="text-lg font-medium text-gray-900 mb-2">Guided Meditations</h4>
-                            <p class="text-gray-700">
-                                From 3-minute breathing exercises to 45-minute deep sessions, our library caters to every schedule and experience level.
-                            </p>
-                        </div>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Why Customers Choose Zentara UK</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Curated Collections</h4>
+                        <p class="text-gray-600">
+                            Seasonal edits and limited runs highlight microbrands, heritage revivals, and exclusive collaborations you will not find on the high street.
+                        </p>
                     </div>
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full mt-3 mr-4"></div>
-                        <div>
-                            <h4 class="text-lg font-medium text-gray-900 mb-2">Mindfulness Programs</h4>
-                            <p class="text-gray-700">
-                                Structured courses designed to build lasting habits, from stress reduction to emotional intelligence and sleep optimization.
-                            </p>
-                        </div>
+                    <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Expert Servicing</h4>
+                        <p class="text-gray-600">
+                            Our accredited workshop offers pressure testing, polishing, battery replacements, and full mechanical servicing backed by a two-year guarantee.
+                        </p>
                     </div>
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-2 h-2 bg-purple-500 rounded-full mt-3 mr-4"></div>
-                        <div>
-                            <h4 class="text-lg font-medium text-gray-900 mb-2">Community Support</h4>
-                            <p class="text-gray-700">
-                                Connect with fellow practitioners, share experiences, and grow together in a supportive, judgment-free environment.
-                            </p>
-                        </div>
+                    <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Flexible Ownership</h4>
+                        <p class="text-gray-600">
+                            Interest-free financing, part-exchange options, and extended returns make investing in your next watch straightforward and secure.
+                        </p>
                     </div>
-                    <div class="flex items-start">
-                        <div class="flex-shrink-0 w-2 h-2 bg-orange-500 rounded-full mt-3 mr-4"></div>
-                        <div>
-                            <h4 class="text-lg font-medium text-gray-900 mb-2">Personal Progress Tracking</h4>
-                            <p class="text-gray-700">
-                                Monitor your meditation journey with insights into your practice patterns, mood improvements, and milestone celebrations.
-                            </p>
+                </div>
+            </div>
+
+            <!-- Collections -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Collections For Every Wrist</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-orange-600 text-2xl font-semibold">A</span>
                         </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Automatic Icons</h4>
+                        <p class="text-gray-600">
+                            Swiss and German movements paired with sapphire crystals, exhibition casebacks, and hand-finished dials.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-blue-600 text-2xl font-semibold">S</span>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Smart & Hybrid</h4>
+                        <p class="text-gray-600">
+                            Connected timepieces that blend analog craftsmanship with wellness tracking, contactless payments, and long battery life.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-gray-600 text-2xl font-semibold">L</span>
+                        </div>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Limited Editions</h4>
+                        <p class="text-gray-600">
+                            Numbered releases, heritage reissues, and collaborative drops available exclusively through Zentara UK.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Promise -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Service You Can Rely On</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Personal Concierge</h4>
+                        <p class="text-gray-600">
+                            Book a virtual showroom tour or in-person consultation with a watch specialist to compare pieces before you buy.
+                        </p>
+                    </div>
+                    <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Secure Delivery</h4>
+                        <p class="text-gray-600">
+                            Fully insured shipping throughout the UK with real-time tracking, discreet packaging, and optional same-day courier service in London.
+                        </p>
+                    </div>
+                    <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-sm">
+                        <h4 class="text-lg font-semibold text-gray-900 mb-3">Lifetime Support</h4>
+                        <p class="text-gray-600">
+                            Complimentary bracelet resizing, strap fitting, and annual check-ups keep your watch performing at its best.
+                        </p>
                     </div>
                 </div>
             </div>
 
             <!-- Team Section -->
             <div class="mb-16">
-                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Our Expert Teachers</h3>
+                <h3 class="text-2xl font-semibold text-gray-900 mb-8 text-center">Meet The Team</h3>
                 <p class="text-lg text-gray-600 text-center mb-12 max-w-3xl mx-auto">
-                    Our meditation guides bring decades of combined experience from various traditions including Vipassana, 
-                    Zen, Mindfulness-Based Stress Reduction (MBSR), and contemporary wellness practices.
+                    From sourcing to servicing, our specialists ensure every watch we list meets Zentara UK standards for authenticity, accuracy, and style.
                 </p>
                 <div class="grid md:grid-cols-3 gap-8">
                     <div class="text-center">
-                        <div class="w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <span class="text-white text-2xl font-semibold">SK</span>
+                        <div class="w-32 h-32 bg-gradient-to-br from-gray-800 to-gray-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-white text-2xl font-semibold">EH</span>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Sarah Kim</h4>
-                        <p class="text-gray-600 text-sm mb-3">Lead Meditation Teacher</p>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Elena Hughes</h4>
+                        <p class="text-gray-600 text-sm mb-3">Founder & Curator</p>
                         <p class="text-gray-700 text-sm">
-                            15 years of Vipassana practice with extensive training in MBSR and compassion-based meditation.
+                            Former auction house specialist with a decade in vintage watch procurement and brand partnerships.
                         </p>
                     </div>
                     <div class="text-center">
-                        <div class="w-32 h-32 bg-gradient-to-br from-green-400 to-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <span class="text-white text-2xl font-semibold">MP</span>
+                        <div class="w-32 h-32 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-white text-2xl font-semibold">MT</span>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Marcus Patel</h4>
-                        <p class="text-gray-600 text-sm mb-3">Mindfulness Specialist</p>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Malik Thompson</h4>
+                        <p class="text-gray-600 text-sm mb-3">Head Watchmaker</p>
                         <p class="text-gray-700 text-sm">
-                            Former corporate executive turned meditation teacher, specializing in stress management and workplace mindfulness.
+                            Accredited by the British Horological Institute and responsible for inspection, calibration, and restoration.
                         </p>
                     </div>
                     <div class="text-center">
-                        <div class="w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                            <span class="text-white text-2xl font-semibold">LR</span>
+                        <div class="w-32 h-32 bg-gradient-to-br from-teal-500 to-green-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span class="text-white text-2xl font-semibold">RS</span>
                         </div>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Luna Rodriguez</h4>
-                        <p class="text-gray-600 text-sm mb-3">Sleep & Healing Expert</p>
+                        <h4 class="text-lg font-semibold text-gray-900 mb-2">Riya Singh</h4>
+                        <p class="text-gray-600 text-sm mb-3">Client Services Lead</p>
                         <p class="text-gray-700 text-sm">
-                            Certified in yoga nidra and sound healing, focusing on restorative practices and sleep optimization.
+                            Oversees concierge appointments, aftercare plans, and bespoke gifting experiences for corporate clients.
                         </p>
                     </div>
                 </div>
             </div>
 
             <!-- Call to Action -->
-            <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-center text-white">
-                <h3 class="text-2xl font-bold mb-4">Begin Your Journey Today</h3>
+            <div class="bg-gradient-to-r from-gray-900 to-blue-700 rounded-lg p-8 text-center text-white">
+                <h3 class="text-2xl font-bold mb-4">Discover Your Next Watch</h3>
                 <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
-                    Join thousands of practitioners who have discovered the transformative power of consistent mindfulness practice. 
-                    Your journey toward greater peace and clarity starts with a single breath.
+                    Browse new releases, certified pre-owned finds, and limited collaborations curated by the Zentara UK team. Whether you are celebrating a milestone or refining your daily rotation, we will help you choose the right piece.
                 </p>
                 <div class="space-x-4">
-                    <a href="{{ route('register') }}" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors inline-block">
-                        Start Free Trial
+                    <a href="{{ route('products.index') }}" class="bg-white text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors inline-block">
+                        Shop Collection
                     </a>
-                    <a href="" class="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors inline-block">
-                        Explore Meditations
+                    <a href="{{ route('contact') }}" class="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-900 transition-colors inline-block">
+                        Book Consultation
                     </a>
                 </div>
             </div>
 
             <!-- Contact Info -->
             <div class="mt-16 text-center">
-                <h3 class="text-xl font-semibold text-gray-900 mb-4">Connect With Us</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">Connect With Zentara UK</h3>
                 <p class="text-gray-600 mb-4">
-                    Have questions about your practice or our platform? We're here to support your journey.
+                    Questions about sizing, servicing, or availability? Our team responds within one business day.
                 </p>
                 <div class="flex justify-center space-x-6 text-sm text-gray-500">
-                    <span>📧 hello@zentara.com</span>
-                    <span>🌱 @zentara_mindfulness</span>
-                    <span>📱 Support available 7 days a week</span>
+                    <span>hello@zentara.co.uk</span>
+                    <span>@zentara_uk</span>
+                    <span>Customer care 7 days a week</span>
                 </div>
             </div>
         </div>

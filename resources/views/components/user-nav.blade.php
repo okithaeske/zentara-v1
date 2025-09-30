@@ -1,5 +1,5 @@
 <nav x-data="{ open: false }"
-    class="bg-black/95 backdrop-blur-sm border-b border-yellow-500/20 text-white shadow-lg relative z-[70]">
+    class="sticky top-0 w-full bg-black border-b border-yellow-500/20 text-white shadow-none z-[70]">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
@@ -9,7 +9,7 @@
                     <a href="{{ route('home') }}" aria-label="Home" class="flex items-center gap-3 group">
                         <!-- Watch Icon -->
                         <div
-                            class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                            class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center shadow-md group-hover:shadow-none transition-shadow duration-300">
                             <svg class="w-5 h-5 text-gray-900" fill="currentColor" viewBox="0 0 24 24">
                                 <path
                                     d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm3 8h-4V8h2v4h2v2z" />
@@ -215,7 +215,7 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}"
-        class="hidden sm:hidden bg-black/95 backdrop-blur-sm border-t border-yellow-500/20">
+        class="hidden sm:hidden bg-black border-t border-yellow-500/20">
         <div class="pt-2 pb-3 space-y-1">
             <x-user-responsive-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')"
                 class="block pl-6 pr-4 py-3 border-l-4 border-transparent text-base font-medium text-gray-300 hover:text-yellow-400 hover:border-yellow-500 hover:bg-gray-800 transition-all duration-200">
@@ -325,3 +325,6 @@
         @endauth
     </div>
 </nav>
+
+
+
