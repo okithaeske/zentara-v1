@@ -12,7 +12,10 @@
                         <p class="text-gray-500">Your cart is empty.</p>
                     @else
                         @foreach ($cart['items'] as $item)
-                            @php($imageUrl = \App\Support\StorageUrl::for($item['image'] ?? null))
+                            @php
+                                $image = $item['image'] ?? null;
+                                $imageUrl = $image ? (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://']) ? $image : Storage::url($image)) : null;
+                            @endphp
                             <div class="flex gap-3 items-center">
                                 <div class="w-16 h-16 bg-gray-100 overflow-hidden rounded">
                                     @if ($imageUrl)

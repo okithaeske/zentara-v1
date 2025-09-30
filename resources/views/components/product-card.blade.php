@@ -4,8 +4,8 @@
     <div class="relative">
         <a href="{{ route('products.show', $product) }}" class="block">
             <div class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                @if ($product->image_url)
-                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                @if ($product->image_path)
+                    <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
                 @else
                     <div class="w-full h-full flex flex-col items-center justify-center text-gray-400">
                         <svg class="w-12 h-12 mb-2" fill="currentColor" viewBox="0 0 24 24">

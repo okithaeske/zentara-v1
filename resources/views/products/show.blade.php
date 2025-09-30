@@ -8,8 +8,8 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-gray-100 rounded-xl overflow-hidden">
-                    @if ($product->image_url)
-                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover" />
+                    @if ($product->image_path)
+                        <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->name }}" class="w-full h-full object-cover" />
                     @else
                         <div class="w-full aspect-square flex items-center justify-center text-gray-400">No image</div>
                     @endif

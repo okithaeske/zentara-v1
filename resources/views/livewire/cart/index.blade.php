@@ -16,7 +16,10 @@
                 <div class="lg:col-span-2">
                     <div class="space-y-4">
                         @foreach ($cart['items'] as $item)
-                            @php($imageUrl = \App\Support\StorageUrl::for($item['image'] ?? null))
+                            @php
+                                $image = $item['image'] ?? null;
+                                $imageUrl = $image ? (\Illuminate\Support\Str::startsWith($image, ['http://', 'https://']) ? $image : Storage::url($image)) : null;
+                            @endphp
                             <div class="flex flex-col sm:flex-row gap-4 p-4 border rounded-lg">
                                 <div class="w-full sm:w-28 h-28 bg-gray-100 rounded overflow-hidden">
                                     @if ($imageUrl)

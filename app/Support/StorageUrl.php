@@ -3,8 +3,8 @@
 namespace App\Support;
 
 use Aws\Exception\InvalidRegionException;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -16,39 +16,57 @@ class StorageUrl
             return null;
         }
 
-        if (Str::startsWith($path, ['http://', 'https://'])) {
-            return $path;
+        $normalized = self::normalizePath($path);
+
+        if ($normalized) {
+            $disks = array_filter(array_unique([
+                'public',
+                config('filesystems.default'),
+            ]));
+
+            foreach ($disks as $disk) {
+                try {
+                    /** @var FilesystemAdapter $storage */
+                    $storage = Storage::disk($disk);
+                    $url = $storage->url($normalized);
+
+                    if ($url) {
+                        return Str::startsWith($url, ['http://', 'https://']) ? $url : url($url);
+                    }
+                } catch (InvalidArgumentException|InvalidRegionException $exception) {
+                    continue;
+                }
+            }
         }
 
         if (Str::startsWith($path, 's3://')) {
             return self::fromS3Uri($path);
         }
 
-        $normalized = ltrim($path, '/');
-        if (Str::startsWith($normalized, 'storage/')) {
-            $normalized = Str::after($normalized, 'storage/');
+        return $normalized ? asset('storage/' . $normalized) : null;
+    }
+
+    public static function normalizePath(?string $path): ?string
+    {
+        if (!$path) {
+            return null;
         }
 
-        $disks = array_filter(array_unique([
-            'public',
-            config('filesystems.default'),
-        ]));
+        $value = trim($path);
 
-        foreach ($disks as $disk) {
-            try {
-                /** @var FilesystemAdapter $storage */
-                $storage = Storage::disk($disk);
-                $url = $storage->url($normalized);
-
-                if ($url) {
-                    return Str::startsWith($url, ['http://', 'https://']) ? $url : url($url);
-                }
-            } catch (InvalidArgumentException|InvalidRegionException $exception) {
-                continue;
-            }
+        if (Str::startsWith($value, 's3://')) {
+            $withoutScheme = Str::after($value, 's3://');
+            [$maybeBucket, $key] = explode('/', $withoutScheme, 2) + [null, null];
+            $value = $key ?? $maybeBucket ?? '';
         }
 
-        return asset('storage/' . $normalized);
+        $value = ltrim($value, '/');
+
+        if (Str::startsWith($value, 'storage/')) {
+            $value = Str::after($value, 'storage/');
+        }
+
+        return $value !== '' ? $value : null;
     }
 
     protected static function fromS3Uri(string $uri): string
