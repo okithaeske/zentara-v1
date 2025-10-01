@@ -1,66 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Zentara Platform â€“ Implementation Report
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This document captures the current state of the Zentara Laravel 11 codebase and maps it to the assessment rubric you provided. Each criterion lists (1) the score awarded, (2) the concrete implementation highlights, and (3) direct file references you can inspect for verification.
 
-## About Laravel
+## 1. Built Using Laravel 11 â€” **8 / 10**
+- Composer requires `laravel/framework ^11.31`, Jetstream, Livewire, Sanctum, MongoDB driver (`composer.json:7-22`).
+- Full-stack usage: HTTP routes for public, seller, admin areas (`routes/web.php:19-121`), API routes (`routes/api.php:9-18`), middleware stack with custom `SecurityHeaders` (`app/Http/Middleware/SecurityHeaders.php:13-39`), view components, and Livewire features.
+- Policies and providers configured (`app/Providers/AuthServiceProvider.php:15-32`, `app/Providers/AppServiceProvider.php:16-27`).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Why not 10?** Queues/caching/job infrastructure exists in migrations but is not yet showcased with concrete workers or cache strategies.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 2. SQL Database Connection â€” **7 / 10**
+- Multiple SQL connections pre-configured (SQLite, MySQL/MariaDB, PostgreSQL, SQL Server) with TLS hooks (`config/database.php:26-111`).
+- Schema managed through extensive migrations for users, products, orders, sessions, tokens, etc. (`database/migrations/*.php`).
+- CRUD operations rely on Eloquent models (e.g., `app/Models/Product.php`, `app/Http/Controllers/Seller/ProductController.php`).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Next step:** Document or enable pooling / monitoring for production performance.
 
-## Learning Laravel
+## 3. Use of External Libraries (Livewire) â€” **7 / 10**
+- Livewire 3 powers reactive flows: cart (`app/Livewire/Cart/Index.php`), checkout, admin dashboards, seller tooling.
+- Components integrate validation, session persistence, and render custom views (`resources/views/livewire/**`).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Room to grow:** Volt is not in use; additional documentation around component tests and perf-tuning would raise the score.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 4. Use of Laravelâ€™s Eloquent Model â€” **8 / 10**
+- Rich models define fillables, relationships, accessors/mutators, attribute casts (`app/Models/Product.php:19-62`, `app/Models/Order.php:17-28`, `app/Models/User.php`).
+- Policies enforce model-level authorization (e.g., `app/Policies/ProductPolicy.php`, `app/Policies/OrderPolicy.php`).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**To reach 9+:** Add custom query scopes / advanced eager-loading patterns with tests.
 
-## Laravel Sponsors
+## 5. Use of Laravel Jetstream for Authentication â€” **7 / 10**
+- Jetstream Livewire stack enabled with profile photos, API tokens, account deletion (`config/jetstream.php:14-54`).
+- Authenticated dashboards and management areas secured via middleware & role checks (`routes/web.php:61-121`).
+- Fortify actions leveraged for user creation (`app/Actions/Fortify/CreateNewUser.php`).
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Improvements:** Surface two-factor auth and teams UI flows within the current UX.
 
-### Premium Partners
+## 6. Use of Laravel Sanctum for API Authentication â€” **6 / 10**
+- Sanctum configured with stateful domains, guards, and middleware overrides (`config/sanctum.php`).
+- Personal access tokens issued during API login/register (`app/Http/Controllers/Api/AuthController.php:18-47`).
+- Rate limiting applied to API login (`routes/api.php:15`).
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+**Next steps:** Broaden Sanctum-protected API routes and document token scopes / revocation processes.
 
-## Contributing
+## 7. Security Documentation & Implementation â€” **8 / 10**
+- SECURITY.md inventories threats and ties mitigations to code references (`SECURITY.md:1-210`).
+- Security middleware adds headers & CSP (report-only) (`app/Http/Middleware/SecurityHeaders.php`), HTTPS enforced in production (`app/Providers/AppServiceProvider.php:19-27`).
+- RBAC via policies, role middleware, unauthorized access logging (`app/Http/Middleware/RoleMiddleware.php:23-41`).
+- Sanitization helper for rich text (`app/Support/Sanitizer.php`) and validation across controllers.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Future work:** Move CSP to enforcement and expand automated security checks.
 
-## Code of Conduct
+## 8. MongoDB Usage for API (Optional) â€” **6 / 10**
+- MongoDB driver installed (`composer.json:15`), connection configured (`config/database.php:105-111`).
+- Contact messages stored via Mongo Eloquent model (`app/Models/ContactMessage.php`) and REST endpoints (`app/Http/Controllers/Api/ContactMessageController.php`).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Enhancements:** Add indexing/aggregation pipelines and tests for mixed SQL/NoSQL workflows.
 
-## Security Vulnerabilities
+## 9. Hosting Provider Utilization (Optional) â€” **0 / 10**
+- No deployment artifacts or hosting scripts found. The project currently runs locally (artisan serve / Sail).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Recommendation:** Document hosting strategy (e.g., Forge, Vapor, Docker on ECS) with CI/CD, HTTPS, monitoring to raise this score.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Quick Reference Table
+
+| Criterion | Score | Key Evidence |
+| --- | --- | --- |
+| Built using Laravel 11 | **8/10** | `composer.json`, `routes/web.php`, `app/Providers/*` |
+| SQL database connection | **7/10** | `config/database.php`, migrations |
+| External library usage (Livewire) | **7/10** | `app/Livewire/**`, `resources/views/livewire/**` |
+| Eloquent model usage | **8/10** | `app/Models/**`, `app/Policies/**` |
+| Jetstream authentication | **7/10** | `config/jetstream.php`, `routes/web.php` |
+| Sanctum API auth | **6/10** | `config/sanctum.php`, `app/Http/Controllers/Api/AuthController.php` |
+| Security documentation & implementation | **8/10** | `SECURITY.md`, `app/Http/Middleware/SecurityHeaders.php` |
+| MongoDB integration (optional) | **6/10** | `config/database.php`, `app/Models/ContactMessage.php` |
+| Hosting provider usage (optional) | **0/10** | _No hosting artefacts present_ |
+
+---
+
+### Suggested Next Actions
+
+1. **Hosting & Deployment:** Decide on target hosting (Forge, Vapor, Docker, etc.), set up CI/CD, SSL, monitoring, and note the setup in this README.
+2. **API Hardening:** Expand Sanctum-protected routes, document token scopes, and add automated logout/revocation flows.
+3. **Performance & Observability:** Implement caching strategies (Redis, cache tags) and log aggregation to progress toward a 9â€“10 score range.
+4. **Security Enhancements:** Promote CSP from report-only to enforce mode once inline assets are refactored, and automate security linting.
+
+This report should give reviewers a quick, evidence-backed understanding of whatâ€™s already implemented and where to focus next.

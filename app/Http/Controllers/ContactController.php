@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\ContactConfirmation;
 use App\Mail\ContactSubmitted;
 use App\Models\ContactMessage;
 use Illuminate\Http\RedirectResponse;
@@ -38,7 +37,7 @@ class ContactController extends Controller
             Mail::to($adminTo)->send(new ContactSubmitted($contact));
         }
 
-        Mail::to($contact->email)->send(new ContactConfirmation($contact));
+        // Customer-facing confirmation now handled by the external microservice.
 
         try {
             // Notify external confirmation API; failure should not block the user flow.
@@ -54,4 +53,3 @@ class ContactController extends Controller
         return redirect()->route('contact')->with('success', 'Thank you. Your message has been sent.');
     }
 }
-

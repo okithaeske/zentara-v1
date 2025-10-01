@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="min-h-screen flex items-center py-12 sm:py-16">
+    <div class="min-h-screen bg-luxury-gradient flex items-center py-12 sm:py-16">
         <div class="content-wrapper grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
             <div class="hidden lg:flex flex-col justify-between glass-effect rounded-[32px] p-12 border border-white/10">
                 <div class="space-y-6">

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderConfirmation;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class CheckoutController extends Controller
 {
@@ -139,6 +141,8 @@ class CheckoutController extends Controller
 
             return $order;
         });
+
+        Mail::to($data['shipping_email'])->send(new OrderConfirmation($order));
 
         // Clear cart
         session()->forget('cart');
