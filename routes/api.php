@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ContactFormController;
@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Public contact form submission endpoint for mobile and third-party clients
+// Public contact form submission endpoint 
 Route::post('/contact', [ContactFormController::class, 'store']);
 
 // Public endpoint for products (with seller info)
@@ -20,3 +20,8 @@ Route::get('/products', [ApiProductController::class, 'index']);
 // Auth endpoints
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [ApiUserController::class, 'index']);
+    Route::post('/users/{user}', [ApiUserController::class, 'update']);
+});
