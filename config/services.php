@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 return [
 
@@ -39,6 +39,10 @@ return [
         'key' => env('STRIPE_PUBLIC'),
         'secret' => env('STRIPE_SECRET'),
         'currency' => env('STRIPE_CURRENCY', 'usd'),
+    ],
+
+    'contact_confirmation' => [
+        'endpoint' => env('CONTACT_CONFIRMATION_ENDPOINT'),
     ],
 
 ];
