@@ -18,6 +18,11 @@ class AddToCart extends Component
         $this->product = $product;
     }
 
+    public function updated(string $propertyName): void
+    {
+        $this->validateOnly($propertyName);
+    }
+
     public function add(): void
     {
         $this->validate();

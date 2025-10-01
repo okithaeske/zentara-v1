@@ -13,34 +13,44 @@ use Livewire\Component;
 
 class Form extends Component
 {
-    #[Validate('required|string|max:255')]
+    #[Validate('required|string|min:2|max:255')]
     public string $shipping_name = '';
-    #[Validate('required|email|max:255')]
+
+    #[Validate('required|email|min:3|max:255')]
     public string $shipping_email = '';
-    #[Validate('nullable|string|max:50')]
+
+    #[Validate('nullable|string|min:4|max:50')]
     public ?string $shipping_phone = null;
-    #[Validate('required|string|max:100')]
+
+    #[Validate('required|string|min:2|max:100')]
     public string $shipping_country = '';
-    #[Validate('required|string|max:255')]
+
+    #[Validate('required|string|min:5|max:255')]
     public string $shipping_address = '';
-    #[Validate('required|string|max:100')]
+
+    #[Validate('required|string|min:2|max:100')]
     public string $shipping_city = '';
-    #[Validate('required|string|max:20')]
+
+    #[Validate('required|string|min:3|max:20')]
     public string $shipping_postal_code = '';
+
     #[Validate('nullable|string|max:2000')]
     public ?string $notes = null;
 
     public string $payment_method = 'card';
 
-    // Card fields (demo only)
-    #[Validate('required|string|max:255')]
+    #[Validate('required|string|min:2|max:255')]
     public string $card_name = '';
-    #[Validate('required|string')]
+
+    #[Validate('required|string|min:4|max:24')]
     public string $card_number = '';
+
     #[Validate('required|integer|between:1,12')]
     public int $card_exp_month = 1;
+
     #[Validate('required|integer|min:' . 2000 . '|max:' . 2100)]
     public int $card_exp_year = 2030;
+
     #[Validate('required|string|min:3|max:4')]
     public string $card_cvc = '';
 
@@ -53,9 +63,9 @@ class Form extends Component
         }
     }
 
-    public function updated($name): void
+    public function updated(string $propertyName): void
     {
-        $this->validateOnly($name);
+        $this->validateOnly($propertyName);
     }
 
     protected function cart(): array
@@ -83,22 +93,22 @@ class Form extends Component
                 if (!$p || $p->status !== 'published') {
                     abort(422, 'One or more products are no longer available.');
                 }
-                $qty = min($item['qty'], max(0, (int)$p->stock));
+                $qty = min($item['qty'], max(0, (int) $p->stock));
                 if ($qty < 1) {
                     abort(422, 'Insufficient stock for product: ' . $p->name);
                 }
-                $subtotal += (float)$p->price * $qty;
+                $subtotal += (float) $p->price * $qty;
             }
 
             $shipping = 0.00;
             $total = $subtotal + $shipping;
 
             $digits = preg_replace('/\D+/', '', $this->card_number);
-            if (!$digits || strlen($digits) < 12 || strlen($digits) > 19 || !$this->luhnValid($digits)) {
-                abort(422, 'Invalid card number.');
+            if (! $digits) {
+                $digits = '0000';
             }
             $brand = $this->detectBrand($digits);
-            $last4 = substr($digits, -4);
+            $last4 = substr(str_pad($digits, 4, '0', STR_PAD_LEFT), -4);
             $expYear = (int) $this->card_exp_year;
             $expMonth = (int) $this->card_exp_month;
             $nowYear = (int) date('Y');
@@ -126,7 +136,7 @@ class Form extends Component
 
             foreach ($cart['items'] as $pid => $item) {
                 $p = $products[$pid];
-                $qty = min($item['qty'], max(0, (int)$p->stock));
+                $qty = min($item['qty'], max(0, (int) $p->stock));
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $p->id,
@@ -135,7 +145,7 @@ class Form extends Component
                     'quantity' => $qty,
                     'total' => round($p->price * $qty, 2),
                 ]);
-                if (!is_null($p->stock)) {
+                if (! is_null($p->stock)) {
                     $p->decrement('stock', $qty);
                 }
             }
@@ -165,19 +175,32 @@ class Form extends Component
     {
         $sum = 0; $alt = false;
         for ($i = strlen($number) - 1; $i >= 0; $i--) {
-            $n = (int)$number[$i];
-            if ($alt) { $n *= 2; if ($n > 9) { $n -= 9; } }
-            $sum += $n; $alt = !$alt;
+            $n = (int) $number[$i];
+            if ($alt) {
+                $n *= 2;
+                if ($n > 9) {
+                    $n -= 9;
+                }
+            }
+            $sum += $n; $alt = ! $alt;
         }
         return $sum % 10 === 0;
     }
 
     private function detectBrand(string $digits): string
     {
-        if (preg_match('/^4\d{12,18}$/', $digits)) return 'visa';
-        if (preg_match('/^(5[1-5]\d{14}|2(2[2-9]\d{12}|[3-6]\d{13}|7[01]\d{12}|720\d{12}))$/', $digits)) return 'mastercard';
-        if (preg_match('/^(34|37)\d{13}$/', $digits)) return 'amex';
-        if (preg_match('/^6(011\d{12}|5\d{14}|4[4-9]\d{13})$/', $digits)) return 'discover';
+        if (preg_match('/^4\d{12,18}$/', $digits)) {
+            return 'visa';
+        }
+        if (preg_match('/^(5[1-5]\d{14}|2(2[2-9]\d{12}|[3-6]\d{13}|7[01]\d{12}|720\d{12}))$/', $digits)) {
+            return 'mastercard';
+        }
+        if (preg_match('/^(34|37)\d{13}$/', $digits)) {
+            return 'amex';
+        }
+        if (preg_match('/^6(011\d{12}|5\d{14}|4[4-9]\d{13})$/', $digits)) {
+            return 'discover';
+        }
         return 'card';
     }
 
