@@ -5,3 +5,95 @@
 [x-cloak] {
     display: none;
 }
+
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply min-h-screen overflow-x-hidden;
+    }
+
+    img,
+    video {
+        @apply max-w-full h-auto;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
+        text-wrap: balance;
+    }
+
+    @supports not (text-wrap: balance) {
+        h1,
+        h2,
+        h3,
+        h4,
+        p {
+            text-wrap: pretty;
+        }
+    }
+}
+
+@layer components {
+    .content-wrapper {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .section-spacing {
+        @apply py-12 sm:py-16 lg:py-24;
+    }
+
+    .stack-on-mobile {
+        @apply flex flex-col gap-6;
+    }
+
+    @screen md {
+        .stack-on-mobile {
+            @apply flex-row;
+        }
+    }
+
+    .stack-on-mobile > * {
+        @apply flex-1;
+    }
+
+    .card-grid {
+        @apply grid gap-6 sm:grid-cols-2 xl:grid-cols-3;
+    }
+
+    .luxury-glass {
+        @apply rounded-[24px] border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur-xl sm:p-8;
+    }
+}
+
+@layer utilities {
+    .btn-gradient {
+        @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-fuchsia-500 px-6 py-3 font-semibold text-white shadow-lg shadow-indigo-500/40 transition-all duration-300;
+    }
+
+    .btn-gradient:hover {
+        @apply from-indigo-600 via-purple-600 to-fuchsia-600 shadow-2xl;
+    }
+
+    .surface-elevated {
+        @apply border border-white/10 bg-white/5 backdrop-blur;
+    }
+
+    .mobile-full-width {
+        @apply w-full;
+    }
+
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}

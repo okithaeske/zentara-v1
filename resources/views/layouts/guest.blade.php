@@ -63,6 +63,14 @@
             select {
                 color: #111827; /* gray-900 */
                 background-color: #ffffff;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background-image: none;
+            }
+
+            select::-ms-expand {
+                display: none;
             }
 
             input::placeholder,

@@ -2,9 +2,9 @@
     <!-- Hero Section with Gradient Background -->
     <div class="relative bg-gradient-to-br from-slate-900 via-gray-900 to-black -mt-px">
         <div class="absolute inset-0 bg-black/20"></div>
-        <div class="relative py-20 px-4">
-            <div class="max-w-7xl mx-auto text-center">
-                <h1 class="text-5xl md:text-6xl font-light text-white mb-4 tracking-wider">
+        <div class="relative py-16 px-4 sm:py-20">
+            <div class="content-wrapper text-center">
+                <h1 class="text-3xl sm:text-5xl md:text-6xl font-light text-white mb-4 tracking-wider">
                     Our <span class="font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">Collection</span>
                 </h1>
                 <p class="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
@@ -16,7 +16,7 @@
 
     <!-- Main Products Section -->
     <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="content-wrapper space-y-12">
             <form method="GET" class="bg-white shadow-sm rounded-2xl p-6 md:p-8 border border-gray-100">
                 <div class="grid gap-6 md:grid-cols-4">
                     <div>

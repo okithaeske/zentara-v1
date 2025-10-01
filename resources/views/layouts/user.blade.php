@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -108,7 +108,7 @@
 
             @if (isset($header))
                 <header class="glass-effect">
-                    <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+                    <div class="content-wrapper py-8">
                         {{ $header }}
                     </div>
                 </header>
