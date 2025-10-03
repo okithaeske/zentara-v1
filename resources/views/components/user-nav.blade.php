@@ -162,13 +162,6 @@
                                         {{ __('Profile') }}
                                     </x-user-dropdown-link>
 
-                                    @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                        <x-user-dropdown-link href="{{ route('api-tokens.index') }}"
-                                            class="text-gray-200 hover:text-yellow-400 hover:bg-gray-700">
-                                            {{ __('API Tokens') }}
-                                        </x-user-dropdown-link>
-                                    @endif
-
                                     <div class="border-t border-gray-600"></div>
 
                                     <!-- Authentication -->
@@ -264,14 +257,6 @@
                         {{ __('My Orders') }}
                     </x-user-responsive-nav-link>
 
-                    @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                        <x-user-responsive-nav-link href="{{ route('api-tokens.index') }}"
-                            :active="request()->routeIs('api-tokens.index')"
-                            class="block pl-6 pr-4 py-3 text-base font-medium text-gray-300 hover:text-yellow-400 hover:bg-gray-800 transition-all duration-200">
-                            {{ __('API Tokens') }}
-                        </x-user-responsive-nav-link>
-                    @endif
-
                     <form method="POST" action="{{ route('logout') }}" x-data>
                         @csrf
                         <x-user-responsive-nav-link href="{{ route('logout') }}" @click.prevent="$root.submit();"
@@ -325,6 +310,8 @@
         @endauth
     </div>
 </nav>
+
+
 
 
 

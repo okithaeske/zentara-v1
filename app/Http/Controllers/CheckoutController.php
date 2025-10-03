@@ -142,7 +142,34 @@ class CheckoutController extends Controller
             return $order;
         });
 
-        Mail::to($data['shipping_email'])->send(new OrderConfirmation($order));
+        try {
+            Mail::to($data['shipping_email'])->send(new OrderConfirmation($order));
+
+            if (
+                $user
+                && strcasecmp($user->email, $data['shipping_email']) !== 0
+            ) {
+                Mail::to($user->email)->send(new OrderConfirmation($order));
+            }
+
+            foreach (config('mail.order_notifications', []) as $address) {
+                if (! filter_var($address, FILTER_VALIDATE_EMAIL)) {
+                    continue;
+                }
+
+                if (strcasecmp($address, $data['shipping_email']) === 0) {
+                    continue;
+                }
+
+                if ($user && strcasecmp($address, $user->email) === 0) {
+                    continue;
+                }
+
+                Mail::to($address)->send(new OrderConfirmation($order));
+            }
+        } catch (\Throwable $exception) {
+            report($exception);
+        }
 
         // Clear cart
         session()->forget('cart');
@@ -176,3 +203,4 @@ class CheckoutController extends Controller
         return 'card';
     }
 }
+

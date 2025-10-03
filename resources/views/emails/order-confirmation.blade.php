@@ -5,7 +5,7 @@
 
     <p>Hi {{ $order->shipping_name ?? ($order->user->name ?? 'there') }},</p>
 
-    <p>Thank you for your order with <strong>{{ config('app.name') }}</strong>. We’re getting everything ready and will share tracking details as soon as your items ship.</p>
+    <p>Thank you for your order with <strong>{{ config('app.name') }}</strong>. We're getting everything ready and will share tracking details as soon as your items ship.</p>
 
     <p><strong>Order #{{ $order->id }}</strong><br>
        Placed on {{ $order->created_at->format('F j, Y') }}</p>
@@ -14,7 +14,7 @@
     <ul>
         @foreach ($order->items as $item)
             <li>
-                {{ $item->quantity }} × {{ $item->name }} — {{ number_format($item->total, 2) }} {{ $currency }}
+                {{ $item->quantity }} x {{ $item->name }} - {{ number_format($item->total, 2) }} {{ $currency }}
             </li>
         @endforeach
     </ul>

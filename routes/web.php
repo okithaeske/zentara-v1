@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\SellerController as AdminSellerController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController as PublicProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -20,7 +21,7 @@ use App\Http\Controllers\Api\ContactMessageController;
 use Illuminate\Http\Request;
 
 Route::view('/', 'welcome')->name('welcome');
-Route::view('/home', 'pages.home')->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Public pages
 Route::view('/about', 'pages.about')->name('about');
@@ -88,11 +89,13 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), ])
             Route::resource('/seller/products', SellerProductController::class)->names('seller.products');
             Route::get('/seller/inventory', [SellerInventoryController::class, 'index'])->name('seller.inventory.index');
             Route::get('/seller/payouts', [SellerPayoutController::class, 'index'])->name('seller.payouts.index');
+            Route::view('/seller/profile', 'seller.profile.show')->name('seller.profile');
             Route::view('/seller/settings', 'seller.settings.index')->name('seller.settings');
         });
 
         Route::middleware('role:admin')->group(function () {
             Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+            Route::view('/admin/profile', 'admin.profile.show')->name('admin.profile');
             Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
             Route::patch('/admin/users/{user}/toggle-ban', [AdminUserController::class, 'toggleBan'])->name('admin.users.toggle-ban');
             Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');

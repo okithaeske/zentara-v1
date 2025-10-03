@@ -108,9 +108,14 @@ return [
     |
     */
 
+    'order_notifications' => array_filter(array_map('trim', explode(',', env('MAIL_ORDER_NOTIFICATIONS', '')))),
+
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
 ];
+
+
+

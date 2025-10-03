@@ -17,7 +17,7 @@
     <!-- Main Products Section -->
     <section class="py-16 bg-gray-50">
         <div class="content-wrapper space-y-12">
-            <form method="GET" class="bg-white shadow-sm rounded-2xl p-6 md:p-8 border border-gray-100">
+            <form method="GET" class="bg-white text-gray-900 shadow-sm rounded-2xl p-6 md:p-8 border border-gray-100">
                 <div class="grid gap-6 md:grid-cols-4">
                     <div>
                         <label for="min" class="block text-sm font-medium text-gray-700 mb-2">Price From (&pound;)</label>
@@ -28,7 +28,7 @@
                             min="0"
                             step="50"
                             value="{{ is_numeric($filters['min']) ? $filters['min'] : '' }}"
-                            class="w-full px-3 py-3 bg-white border-2 border-gray-200 rounded-lg focus:border-yellow-500 focus:ring-yellow-500/20"
+                            class="w-full px-3 py-3 bg-white text-gray-900 border-2 border-gray-200 rounded-lg focus:border-yellow-500 focus:ring-yellow-500/20"
                         />
                     </div>
                     <div>
@@ -40,15 +40,15 @@
                             min="0"
                             step="50"
                             value="{{ is_numeric($filters['max']) ? $filters['max'] : '' }}"
-                            class="w-full px-3 py-3 bg-white border-2 border-gray-200 rounded-lg focus:border-yellow-500 focus:ring-yellow-500/20"
+                            class="w-full px-3 py-3 bg-white text-gray-900 border-2 border-gray-200 rounded-lg focus:border-yellow-500 focus:ring-yellow-500/20"
                         />
                     </div>
                     <div>
-                        <label for="sort" class="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                        <label for="sort" class="block text-sm font-medium text-gray-700 mb-2"> Sort by </label>
                         <select
                             id="sort"
                             name="sort"
-                            class="w-full px-3 py-3 bg-white border-2 border-gray-200 rounded-lg focus:border-yellow-500 focus:ring-yellow-500/20"
+                            class="w-full px-3 py-3 bg-white text-gray-900 border-2 border-gray-200 rounded-lg focus:border-yellow-500 focus:ring-yellow-500/20"
                         >
                             @foreach ($sortOptions as $value => $label)
                                 <option value="{{ $value }}" @selected($filters['sort'] === $value)>{{ $label }}</option>

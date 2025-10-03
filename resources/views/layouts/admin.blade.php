@@ -64,7 +64,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('profile.show') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
+                            <a href="{{ route('admin.profile') }}" class="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-yellow-200 hover:bg-white/5">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1118.88 6.196 9 9 0 015.12 17.804z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -107,7 +107,7 @@
                         <a href="{{ route('admin.dashboard') }}" class="block px-3 py-2 rounded-md bg-white/5 text-yellow-200">Dashboard</a>
                         <a href="{{ route('admin.users.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Users</a>
                         <a href="{{ route('admin.sellers.index') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Sellers</a>
-                        <a href="{{ route('profile.show') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Profile</a>
+                        <a href="{{ route('admin.profile') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Profile</a>
                         <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-gray-300 hover:bg-white/5">Site</a>
                     </nav>
                 </div>
@@ -127,6 +127,10 @@
             </main>
         </div>
 
+        @stack('modals')
+
         @livewireScripts
     </body>
 </html>
+
+

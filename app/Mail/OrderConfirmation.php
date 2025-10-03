@@ -20,7 +20,7 @@ class OrderConfirmation extends Mailable
 
     public function build(): self
     {
-        $subject = sprintf('Thanks for your order • %s', config('app.name'));
+        $subject = sprintf('Thanks for your order - %s', config('app.name'));
 
         return $this->subject($subject)
             ->view('emails.order-confirmation')

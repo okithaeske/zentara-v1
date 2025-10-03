@@ -27,7 +27,7 @@
                         </p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="{{ Route::has('collections') ? route('collections') : '#' }}"
+                        <a href="{{ route('products.index') }}"
                             class="inline-flex items-center justify-center px-8 py-4 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-400 transform hover:scale-105 transition-all duration-300 shadow-xl">
                             Explore Collection
                             <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -77,7 +77,7 @@
                     <div class="p-6">
                         <h3 class="text-2xl font-bold text-gray-900 mb-2">Luxury Collection</h3>
                         <p class="text-gray-600 mb-6">Exquisite timepieces from prestigious Swiss maisons</p>
-                        <a href="{{ Route::has('luxury') ? route('luxury') : '#' }}"
+                        <a href="{{ route('products.index') }}"
                             class="inline-flex items-center text-yellow-600 font-semibold hover:text-yellow-700 transition-colors">
                             Explore Luxury
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@
                     <div class="p-6">
                         <h3 class="text-2xl font-bold text-gray-900 mb-2">Sports Collection</h3>
                         <p class="text-gray-600 mb-6">Professional timepieces built for performance</p>
-                        <a href=""
+                        <a href="{{ route('products.index') }}"
                             class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors">
                             Shop Sports
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +119,7 @@
                     <div class="p-6">
                         <h3 class="text-2xl font-bold text-gray-900 mb-2">Classic Collection</h3>
                         <p class="text-gray-600 mb-6">Timeless designs for the discerning gentleman</p>
-                        <a href=""
+                        <a href="{{ route('products.index') }}"
                             class="inline-flex items-center text-amber-600 font-semibold hover:text-amber-700 transition-colors">
                             View Classic
                             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,139 +141,22 @@
                 <p class="text-xl text-gray-600">Handpicked selections from our master horologists</p>
             </div>
 
+            @php($featuredProducts = $featuredProducts ?? collect())
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Product 1 -->
-                <div
-                    class="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                    <div
-                        class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center relative overflow-hidden">
-                        <div class="text-center space-y-2">
-                            <svg class="w-12 h-12 text-gray-400 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm3 8h-4V8h2v4h2v2z" />
-                            </svg>
-                            <p class="text-xs text-gray-500">Product Image</p>
-                        </div>
-                        <!-- Hover overlay -->
-                        <div
-                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <button
-                                class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                Quick View
-                            </button>
+                @forelse ($featuredProducts as $product)
+                    <x-product-card :product="$product" />
+                @empty
+                    <div class="col-span-full">
+                        <div class="bg-white/80 backdrop-blur-sm border border-dashed border-gray-300 rounded-2xl p-10 text-center">
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Featured pieces coming soon</h3>
+                            <p class="text-gray-600">We're curating our showcase right now. In the meantime, explore the full collection.</p>
+                            <a href="{{ route('products.index') }}" class="mt-6 inline-flex items-center justify-center px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors">
+                                Browse all products
+                            </a>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Swiss Master Classic</h3>
-                        <p class="text-gray-600 text-sm mb-4">Elegant dress watch with leather strap</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-gray-900">$2,499</span>
-                            <button
-                                class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 2 -->
-                <div
-                    class="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                    <div
-                        class="aspect-square bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center relative overflow-hidden">
-                        <div class="text-center space-y-2">
-                            <svg class="w-12 h-12 text-blue-400 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm3 8h-4V8h2v4h2v2z" />
-                            </svg>
-                            <p class="text-xs text-gray-500">Product Image</p>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <button
-                                class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                Quick View
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Ocean Explorer Pro</h3>
-                        <p class="text-gray-600 text-sm mb-4">Professional diving watch, 300m water resistant</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-gray-900">$3,299</span>
-                            <button
-                                class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 3 -->
-                <div
-                    class="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                    <div
-                        class="aspect-square bg-gradient-to-br from-rose-100 to-rose-200 flex items-center justify-center relative overflow-hidden">
-                        <div class="text-center space-y-2">
-                            <svg class="w-12 h-12 text-rose-400 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm3 8h-4V8h2v4h2v2z" />
-                            </svg>
-                            <p class="text-xs text-gray-500">Product Image</p>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <button
-                                class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                Quick View
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Rose Gold Elegance</h3>
-                        <p class="text-gray-600 text-sm mb-4">Sophisticated ladies' timepiece with diamond accents</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-gray-900">$4,799</span>
-                            <button
-                                class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product 4 -->
-                <div
-                    class="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                    <div
-                        class="aspect-square bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center relative overflow-hidden">
-                        <div class="text-center space-y-2">
-                            <svg class="w-12 h-12 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm3 8h-4V8h2v4h2v2z" />
-                            </svg>
-                            <p class="text-xs text-gray-500">Product Image</p>
-                        </div>
-                        <div
-                            class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <button
-                                class="bg-yellow-500 text-black px-4 py-2 rounded-lg font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                Quick View
-                            </button>
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Vintage Heritage</h3>
-                        <p class="text-gray-600 text-sm mb-4">Classic mechanical movement with modern reliability</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-2xl font-bold text-gray-900">$1,899</span>
-                            <button
-                                class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-                                Add to Cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </section>
@@ -441,7 +324,7 @@
                 watch needs.</p>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ Route::has('collections') ? route('collections') : '#' }}"
+                <a href="{{ route('products.index') }}"
                     class="inline-flex items-center justify-center px-8 py-4 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transform hover:scale-105 transition-all duration-300 shadow-lg">
                     Shop All Watches
                     <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
